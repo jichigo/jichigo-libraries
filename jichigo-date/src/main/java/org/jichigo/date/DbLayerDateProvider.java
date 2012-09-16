@@ -74,7 +74,6 @@ public class DbLayerDateProvider implements DateProvider {
      * @throws IllegalStateException if exists multiple result set.
      * @throws IllegalStateException if occur SQLException. But if occur SQLException on close, don't occurred.
      */
-    @Override
     public Date provide() {
 
         // check setting.

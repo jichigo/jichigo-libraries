@@ -47,7 +47,6 @@ public class ApLayerDateProvider implements DateProvider {
      * 
      * @return {@link java.uti.Date#Date(long)}. Constructor argument is {@link System#currentTimeMillis()}.
      */
-    @Override
     public Date provide() {
         final Date date = new Date(System.currentTimeMillis());
         if (logger.isDebugEnabled()) {
