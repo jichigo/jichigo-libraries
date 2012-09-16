@@ -56,7 +56,7 @@ public class DbLayerProviderTest {
      * 2. verify called close method.(main verify)<br>
      */
     @Test
-    public void createSuccess() throws InterruptedException, SQLException {
+    public void provideSuccess() throws InterruptedException, SQLException {
 
         // ------
         // setup.
@@ -106,7 +106,7 @@ public class DbLayerProviderTest {
      * 2. verify called close method.(main verify)<br>
      */
     @Test
-    public void createNoResultSet() throws InterruptedException, SQLException {
+    public void provideNoResultSet() throws InterruptedException, SQLException {
 
         // ------
         // setup.
@@ -163,7 +163,7 @@ public class DbLayerProviderTest {
      * 2. verify called close method.(main verify)<br>
      */
     @Test
-    public void createMultipleResultSet() throws InterruptedException, SQLException {
+    public void provideMultipleResultSet() throws InterruptedException, SQLException {
 
         // ------
         // setup.
@@ -225,7 +225,7 @@ public class DbLayerProviderTest {
      * 1. verify {@link IllegalStateException} (message & cause).
      */
     @Test
-    public void createDataSourceIsNull() throws InterruptedException, SQLException {
+    public void provideDataSourceIsNull() throws InterruptedException, SQLException {
 
         // ------
         // test
@@ -258,7 +258,7 @@ public class DbLayerProviderTest {
      * 1. verify {@link IllegalStateException} (message & cause).
      */
     @Test
-    public void createSqlIsNull() throws InterruptedException, SQLException {
+    public void provideSqlIsNull() throws InterruptedException, SQLException {
 
         // ------
         // setup.
@@ -295,7 +295,7 @@ public class DbLayerProviderTest {
      * 1. verify {@link IllegalStateException} (message & cause).
      */
     @Test
-    public void createSqlIsEmpty() throws InterruptedException, SQLException {
+    public void provideSqlIsEmpty() throws InterruptedException, SQLException {
 
         // ------
         // setup
@@ -332,7 +332,7 @@ public class DbLayerProviderTest {
      * 1. verify {@link IllegalStateException} (message & cause).
      */
     @Test
-    public void createSQLException() throws InterruptedException, SQLException {
+    public void provideSQLException() throws InterruptedException, SQLException {
 
         // ------
         // setup.
@@ -381,7 +381,7 @@ public class DbLayerProviderTest {
      * 3. verify called logger.error method. (main verify)<br>
      */
     @Test
-    public void createSQLExceptionOnClose() throws InterruptedException, SQLException {
+    public void provideSQLExceptionOnClose() throws InterruptedException, SQLException {
 
         // ------
         // setup
