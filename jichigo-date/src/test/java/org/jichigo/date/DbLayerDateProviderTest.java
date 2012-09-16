@@ -48,7 +48,7 @@ import org.slf4j.impl.Log4jLoggerAdapter;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ LoggerFactory.class, Log4jLoggerAdapter.class })
-public class DbLayerProviderTest {
+public class DbLayerDateProviderTest {
 
     /**
      * if success,<br>

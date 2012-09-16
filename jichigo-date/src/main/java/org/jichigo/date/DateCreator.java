@@ -24,15 +24,15 @@ package org.jichigo.date;
 import java.util.Date;
 
 /**
- * Provider interface for date.
+ * Creator interface for date.
  */
-public interface DateProvider {
+public interface DateCreator {
 
     /**
-     * Provide date.
+     * New date.
      * 
      * @return Date instance.
      */
-    Date provide();
+    Date newDate();
 
 }

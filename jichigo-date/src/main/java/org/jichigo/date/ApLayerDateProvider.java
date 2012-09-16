@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @see {@link org.slf4j.Logger} Using logger.
  * @see {@link org.slf4j.LoggerFactory} Using logger.
  */
-public class ApLayerDateProvider implements DateProvider {
+public class ApLayerDateProvider extends ModifiableDateProvider implements DateCreator {
 
     /**
      * Logger instance of slf4j.
@@ -43,11 +43,12 @@ public class ApLayerDateProvider implements DateProvider {
     private final Logger logger = LoggerFactory.getLogger(ApLayerDateProvider.class);
 
     /**
-     * Provide date.
+     * New date.
      * 
      * @return {@link java.uti.Date#Date(long)}. Constructor argument is {@link System#currentTimeMillis()}.
      */
-    public Date provide() {
+    @Override
+    public Date newDate() {
         final Date date = new Date(System.currentTimeMillis());
         if (logger.isDebugEnabled()) {
             logger.debug("date is {}", date);

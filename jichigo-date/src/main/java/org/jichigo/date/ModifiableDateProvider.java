@@ -24,15 +24,55 @@ package org.jichigo.date;
 import java.util.Date;
 
 /**
- * Provider interface for date.
+ * Modifiable data provider.
+ * <p>
+ * if want date modify, please inject custom date modifier. default is not modified.
+ * </p>
+ * 
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author created by Kazuki Shimizu
  */
-public interface DateProvider {
+public abstract class ModifiableDateProvider implements DateProvider {
+
+    /**
+     * Date modifier.
+     */
+    protected DateModifier dateModifier = new DoNotAnythingDateModifier();
 
     /**
      * Provide date.
      * 
-     * @return Date instance.
+     * @return date.
      */
-    Date provide();
+    public Date provide() {
+        Date newDate = newDate();
+        return dateModifier.modify(newDate);
+    }
+
+    /**
+     * New date.
+     * 
+     * @return date.
+     */
+    protected abstract Date newDate();
+
+    /**
+     * Inject date modifier.
+     * 
+     * @param dateModifier date modifier.
+     */
+    public void setDateModifier(DateModifier dateModifier) {
+        this.dateModifier = dateModifier;
+    }
+
+    /**
+     * Don't anything date modifier.
+     */
+    protected class DoNotAnythingDateModifier implements DateModifier {
+        public Date modify(Date targetDate) {
+            return targetDate;
+        }
+    }
 
 }

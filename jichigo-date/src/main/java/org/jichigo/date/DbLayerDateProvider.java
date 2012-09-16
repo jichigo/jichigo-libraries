@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @see {@link org.slf4j.Logger} Using logger.
  * @see {@link org.slf4j.LoggerFactory} Using logger.
  */
-public class DbLayerDateProvider implements DateProvider {
+public class DbLayerDateProvider extends ModifiableDateProvider implements DateCreator {
 
     /**
      * Logger instance of slf4j.
@@ -62,7 +62,7 @@ public class DbLayerDateProvider implements DateProvider {
     protected String sql;
 
     /**
-     * Provide date.
+     * Create New date.
      * <p>
      * Get date using sql from data Source(DB Server).
      * </p>
@@ -74,7 +74,8 @@ public class DbLayerDateProvider implements DateProvider {
      * @throws IllegalStateException if exists multiple result set.
      * @throws IllegalStateException if occur SQLException. But if occur SQLException on close, don't occurred.
      */
-    public Date provide() {
+    @Override
+    public Date newDate() {
 
         // check setting.
         if (dataSource == null) {
@@ -133,6 +134,25 @@ public class DbLayerDateProvider implements DateProvider {
     }
 
     /**
+     * Inject data source.
+     * 
+     * @param dataSource data source.
+     */
+    @Inject
+    public void setDataSource(final DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    /**
+     * Inject sql for get date.
+     * 
+     * @param sql sql for get date.
+     */
+    public void setSql(final String sql) {
+        this.sql = sql;
+    }
+
+    /**
      * Close connection.
      * <p>
      * if occur SQLException, log error level and continue process.
@@ -184,25 +204,6 @@ public class DbLayerDateProvider implements DateProvider {
                 logger.error("fail close of resultSet.", e);
             }
         }
-    }
-
-    /**
-     * Inject data source.
-     * 
-     * @param dataSource data source.
-     */
-    @Inject
-    public void setDataSource(final DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    /**
-     * Inject sql for get date.
-     * 
-     * @param sql sql for get date.
-     */
-    public void setSql(final String sql) {
-        this.sql = sql;
     }
 
 }

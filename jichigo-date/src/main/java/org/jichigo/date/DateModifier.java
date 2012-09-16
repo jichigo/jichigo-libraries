@@ -24,15 +24,20 @@ package org.jichigo.date;
 import java.util.Date;
 
 /**
- * Provider interface for date.
+ * Modifier interface for date.
+ * 
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author created by Kazuki Shimizu
  */
-public interface DateProvider {
+public interface DateModifier {
 
     /**
-     * Provide date.
+     * Modify date.
      * 
-     * @return Date instance.
+     * @param target target date.
+     * @return modified date.
      */
-    Date provide();
+    Date modify(Date targetDate);
 
 }
