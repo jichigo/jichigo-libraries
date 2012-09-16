@@ -5,7 +5,7 @@
  */</template><template autoinsert="true" context="constructorcomment_context" deleted="false" description="作成済みコンストラクターのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
  * ${tags}
  */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="作成済みの Java ファイルのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/*
- * Copyright (c) ${date} jichigo's developers team.
+ * Copyright (c) ${year} jichigo's developers team.
  *
  * jichigo's source code and binaries are distributed the MIT License.
  * 
