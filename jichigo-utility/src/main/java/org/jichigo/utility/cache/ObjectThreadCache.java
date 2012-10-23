@@ -22,7 +22,10 @@
 package org.jichigo.utility.cache;
 
 /**
- * object cache by thread(using thread local).
+ * Object cache by thread.
+ * <p>
+ * using thread local.
+ * </p>
  */
 public abstract class ObjectThreadCache<T> extends AbstractCache<T> implements Cache<T> {
 

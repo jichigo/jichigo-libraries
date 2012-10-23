@@ -22,10 +22,15 @@
 package org.jichigo.utility.cache;
 
 /**
- * Date Pattern class.
+ * Cache interface.
  */
 public interface Cache<T> {
 
+    /**
+     * Get instance.
+     * 
+     * @param args
+     */
     T getInstance(Object... args);
 
 }

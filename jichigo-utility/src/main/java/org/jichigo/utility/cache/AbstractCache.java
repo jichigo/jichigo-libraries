@@ -22,10 +22,15 @@
 package org.jichigo.utility.cache;
 
 /**
- * Date Pattern class.
+ * Abstact cache class.
  */
 public abstract class AbstractCache<T> {
 
+    /**
+     * Create instance.
+     * 
+     * @param args
+     */
     protected abstract T createInstance(final Object... args);
 
 }

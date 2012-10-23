@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * object cache by key.
+ * Object cache by key.
  * <p>
  * key is getInstance method's argument.
  * </p>

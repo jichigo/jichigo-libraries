@@ -32,7 +32,7 @@ import org.jichigo.utility.cache.ObjectThreadCache;
 import org.jichigo.utility.timer.StopWatch;
 
 /**
- * Date Pattern class.
+ * Decimal Pattern class.
  */
 public class DecimalPattern {
 
@@ -47,7 +47,7 @@ public class DecimalPattern {
     };
 
     /**
-     * date format for thread.
+     * decimal format for thread.
      */
     private final Cache<DecimalFormat> decimalFormatCache = new ObjectThreadCache<DecimalFormat>() {
         @Override
@@ -58,13 +58,13 @@ public class DecimalPattern {
     };
 
     /**
-     * date pattern string.
+     * decimal pattern string.
      */
     private final String pattern;
 
     /**
      * 
-     * @param pattern date pattern string.
+     * @param pattern decimal pattern string.
      * @param locale locale.
      */
     private DecimalPattern(final String pattern) {
@@ -72,10 +72,10 @@ public class DecimalPattern {
     }
 
     /**
-     * Get DatePattern instance of Default Locale.
+     * Get DecimalPattern instance.
      * 
-     * @param pattern date pattern.
-     * @return DatePattern instance of Default Locale.
+     * @param pattern decimal pattern.
+     * @return DecimalPattern instance.
      */
     public static DecimalPattern getInstance(final String pattern) {
         return decimalPatternCache.getInstance(pattern);
@@ -84,7 +84,7 @@ public class DecimalPattern {
     /**
      * format date.
      * 
-     * @param target target date.
+     * @param targetNumber target number.
      * @return formatted string.
      */
     public String format(final Number targetNumber) {
@@ -94,18 +94,18 @@ public class DecimalPattern {
     /**
      * Parse date string.
      * 
-     * @param target target date string.
+     * @param targetNumberString target number string.
      * @return date.
      * @throws ParseException
      */
-    public Number parse(final String targetString) throws ParseException {
-        return getFormat().parse(targetString);
+    public Number parse(final String targetNumberString) throws ParseException {
+        return getFormat().parse(targetNumberString);
     }
 
     /**
-     * Get date format.
+     * Get decimal format.
      * 
-     * @return date format.
+     * @return decimal format.
      */
     private DecimalFormat getFormat() {
         return decimalFormatCache.getInstance(pattern);

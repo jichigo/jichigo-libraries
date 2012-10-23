@@ -48,7 +48,7 @@ public class DatePattern {
     };
 
     /**
-     * date format for thread.
+     * date format cache.
      */
     private final Cache<DateFormat> dateFormatCache = new ObjectThreadCache<DateFormat>() {
         @Override
@@ -104,7 +104,7 @@ public class DatePattern {
     /**
      * format date.
      * 
-     * @param target target date.
+     * @param targetDate target date.
      * @return formatted string.
      */
     public String format(final Date targetDate) {
@@ -114,12 +114,12 @@ public class DatePattern {
     /**
      * Parse date string.
      * 
-     * @param target target date string.
+     * @param targetDateString target date string.
      * @return date.
      * @throws ParseException
      */
-    public Date parse(final String targetString) throws ParseException {
-        return getFormat().parse(targetString);
+    public Date parse(final String targetDateString) throws ParseException {
+        return getFormat().parse(targetDateString);
     }
 
     /**
