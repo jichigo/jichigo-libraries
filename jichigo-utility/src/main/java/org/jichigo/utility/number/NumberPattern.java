@@ -42,7 +42,8 @@ public class DecimalPattern {
     private static final Cache<DecimalPattern> decimalPatternCache = new ObjectKeyCache<DecimalPattern>() {
         @Override
         protected DecimalPattern createInstance(final Object... args) {
-            return new DecimalPattern((String) args[0]);
+            final String pattern = (String) args[0];
+            return new DecimalPattern(pattern);
         }
     };
 
@@ -52,8 +53,8 @@ public class DecimalPattern {
     private final Cache<DecimalFormat> decimalFormatCache = new ObjectThreadCache<DecimalFormat>() {
         @Override
         protected DecimalFormat createInstance(final Object... args) {
-            final DecimalFormat instance = new DecimalFormat((String) args[0]);
-            return instance;
+            final String pattern = (String) args[0];
+            return new DecimalFormat(pattern);
         }
     };
 
