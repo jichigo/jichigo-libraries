@@ -66,7 +66,7 @@ public abstract class ObjectKeyCache<T> extends AbstractCache<T> implements Cach
      */
     protected String generateCacheKey(final Object... objects) {
         final StringBuilder cachekeySb = new StringBuilder();
-        for (Object object : objects) {
+        for (final Object object : objects) {
             cachekeySb.append(object).append("_");
         }
         if (0 < cachekeySb.length()) {

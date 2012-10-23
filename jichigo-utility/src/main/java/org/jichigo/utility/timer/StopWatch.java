@@ -35,7 +35,7 @@ public class StopWatch {
         return newInstance("default");
     }
 
-    public static StopWatch newInstance(String name) {
+    public static StopWatch newInstance(final String name) {
         return new StopWatch(name);
     }
 
@@ -46,7 +46,7 @@ public class StopWatch {
     private long lastSplitTime;
     private final List<Long> splitTimeList = new ArrayList<Long>();
 
-    private StopWatch(String name) {
+    private StopWatch(final String name) {
         super();
         this.name = name;
     }
@@ -119,7 +119,7 @@ public class StopWatch {
         print(DEFAULT_PRINTER);
     }
 
-    public void print(StopWatchPrinter printer) {
+    public void print(final StopWatchPrinter printer) {
         printer.print(this);
     }
 
@@ -140,7 +140,7 @@ public class StopWatch {
             final StringBuilder sb = new StringBuilder();
             appendHeader(sb, stopWatch.name);
             appendPassedTime(sb, stopWatch.getFormatPassedTime());
-            List<String> formattedSplitTimeList = stopWatch.getFormatSplitTimeList();
+            final List<String> formattedSplitTimeList = stopWatch.getFormatSplitTimeList();
             if (!formattedSplitTimeList.isEmpty()) {
                 appendSplitTimeHeader(sb);
                 int size = stopWatch.splitTimeList.size();

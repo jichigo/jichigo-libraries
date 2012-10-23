@@ -131,19 +131,4 @@ public class DatePattern {
         return dateFormatCache.getInstance(pattern, locale);
     }
 
-    public static void main(String[] args) throws ParseException {
-        StopWatch sw = StopWatch.newInstance();
-
-        new SimpleDateFormat();
-        sw.start();
-
-        DatePattern datePattern = DatePattern.getInstance("yyyy/MM/dd HH:mm:ss.SSS", Locale.US);
-        for (int i = 0; i < 10; i++) {
-            System.out.println(datePattern.format(new Date()));
-            sw.split();
-        }
-        sw.stop();
-
-        sw.print();
-    }
 }

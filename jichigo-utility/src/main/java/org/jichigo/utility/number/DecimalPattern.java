@@ -111,25 +111,4 @@ public class DecimalPattern {
         return decimalFormatCache.getInstance(pattern);
     }
 
-    public static void main(String[] args) throws ParseException {
-        StopWatch sw = StopWatch.newInstance();
-
-        new SimpleDateFormat();
-        sw.start();
-
-        DecimalPattern decimalPattern = DecimalPattern.getInstance(",###");
-        for (int i = 0; i < 10; i++) {
-            System.out.println(decimalPattern.format(10000000));
-            System.out.println(decimalPattern.parse(decimalPattern.format(new BigDecimal(
-                    "1000000000000000000000000000000000000000000000"))));
-            System.out
-                    .println(decimalPattern.parse(
-                            decimalPattern.format(new BigDecimal("10000000000000000000000000000000000000000000000")))
-                            .getClass());
-            sw.split();
-        }
-        sw.stop();
-
-        sw.print();
-    }
 }
