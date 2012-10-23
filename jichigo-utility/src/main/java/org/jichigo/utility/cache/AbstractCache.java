@@ -26,6 +26,6 @@ package org.jichigo.utility.cache;
  */
 public abstract class AbstractCache<T> {
 
-	protected abstract T createInstance(final Object... args);
+    protected abstract T createInstance(final Object... args);
 
 }

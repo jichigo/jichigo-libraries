@@ -30,52 +30,49 @@ import java.util.concurrent.ConcurrentMap;
  * key is getInstance method's argument.
  * </p>
  */
-public abstract class ObjectKeyCache<T> extends AbstractCache<T> implements
-		Cache<T> {
+public abstract class ObjectKeyCache<T> extends AbstractCache<T> implements Cache<T> {
 
-	/**
-	 * instance cache.
-	 */
-	private final ConcurrentMap<String, T> cache = new ConcurrentHashMap<String, T>();
+    /**
+     * instance cache.
+     */
+    private final ConcurrentMap<String, T> cache = new ConcurrentHashMap<String, T>();
 
-	/**
-	 * Get instance.
-	 * 
-	 * @param objects
-	 *            cache target objects.
-	 * @return instance.
-	 */
-	public T getInstance(final Object... objects) {
-		final String cachekey = generateCacheKey(objects);
-		T instance = cache.get(cachekey);
-		if (instance == null) {
-			synchronized (cachekey.intern()) {
-				instance = cache.get(cachekey);
-				if (instance == null) {
-					instance = createInstance(objects);
-					cache.put(cachekey, instance);
-				}
-			}
-		}
-		return instance;
-	}
+    /**
+     * Get instance.
+     * 
+     * @param objects cache target objects.
+     * @return instance.
+     */
+    public T getInstance(final Object... objects) {
+        final String cachekey = generateCacheKey(objects);
+        T instance = cache.get(cachekey);
+        if (instance == null) {
+            synchronized (cachekey.intern()) {
+                instance = cache.get(cachekey);
+                if (instance == null) {
+                    instance = createInstance(objects);
+                    cache.put(cachekey, instance);
+                }
+            }
+        }
+        return instance;
+    }
 
-	/**
-	 * Generate cache key.
-	 * 
-	 * @param objects
-	 *            cache target objects.
-	 * @return cache key.
-	 */
-	protected String generateCacheKey(final Object... objects) {
-		final StringBuilder cachekeySb = new StringBuilder();
-		for (Object object : objects) {
-			cachekeySb.append(object).append("_");
-		}
-		if (0 < cachekeySb.length()) {
-			cachekeySb.deleteCharAt(cachekeySb.length() - 1);
-		}
-		return cachekeySb.toString();
-	}
+    /**
+     * Generate cache key.
+     * 
+     * @param objects cache target objects.
+     * @return cache key.
+     */
+    protected String generateCacheKey(final Object... objects) {
+        final StringBuilder cachekeySb = new StringBuilder();
+        for (Object object : objects) {
+            cachekeySb.append(object).append("_");
+        }
+        if (0 < cachekeySb.length()) {
+            cachekeySb.deleteCharAt(cachekeySb.length() - 1);
+        }
+        return cachekeySb.toString();
+    }
 
 }

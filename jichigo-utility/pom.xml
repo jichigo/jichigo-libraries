@@ -5,22 +5,4 @@
 	<artifactId>jichigo-utility</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-
-	<properties>
-		<!-- For compile. -->
-
-		<!-- For test. -->
-	</properties>
-
-	<dependencies>
-		<!-- ============ -->
-		<!-- For compile. -->
-		<!-- ============ -->
-
-		<!-- ========= -->
-		<!-- For test. -->
-		<!-- ========= -->
-
-	</dependencies>
-
 </project>

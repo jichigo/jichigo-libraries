@@ -10,6 +10,7 @@
         <!-- For compile. -->
         <javax.inject-version>1</javax.inject-version>
         <org.slf4j-version>1.6.6</org.slf4j-version>
+        <org.jichigo-version>0.0.1-SNAPSHOT</org.jichigo-version>
 
         <!-- For test. -->
         <log4j-versoin>1.2.17</log4j-versoin>
@@ -19,6 +20,7 @@
         <!-- ============ -->
         <!-- For compile. -->
         <!-- ============ -->
+
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>

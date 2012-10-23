@@ -24,28 +24,26 @@ package org.jichigo.utility.cache;
 /**
  * object cache by thread(using thread local).
  */
-public abstract class ObjectThreadCache<T> extends AbstractCache<T> implements
-		Cache<T> {
+public abstract class ObjectThreadCache<T> extends AbstractCache<T> implements Cache<T> {
 
-	/**
-	 * instance cache.
-	 */
-	private final ThreadLocal<T> cache = new ThreadLocal<T>();
+    /**
+     * instance cache.
+     */
+    private final ThreadLocal<T> cache = new ThreadLocal<T>();
 
-	/**
-	 * Get instance.
-	 * 
-	 * @param objects
-	 *            cache target objects.
-	 * @return instance.
-	 */
-	public T getInstance(final Object... objects) {
-		T instance = cache.get();
-		if (instance == null) {
-			instance = createInstance(objects);
-			cache.set(instance);
-		}
-		return instance;
-	}
+    /**
+     * Get instance.
+     * 
+     * @param objects cache target objects.
+     * @return instance.
+     */
+    public T getInstance(final Object... objects) {
+        T instance = cache.get();
+        if (instance == null) {
+            instance = createInstance(objects);
+            cache.set(instance);
+        }
+        return instance;
+    }
 
 }

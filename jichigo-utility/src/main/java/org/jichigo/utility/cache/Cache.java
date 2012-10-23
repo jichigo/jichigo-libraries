@@ -26,6 +26,6 @@ package org.jichigo.utility.cache;
  */
 public interface Cache<T> {
 
-	T getInstance(Object... args);
+    T getInstance(Object... args);
 
 }
