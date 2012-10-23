@@ -108,7 +108,7 @@ public class DatePattern {
      * @return formatted string.
      */
     public String format(final Date targetDate) {
-        return getDateFormat().format(targetDate);
+        return getFormat().format(targetDate);
     }
 
     /**
@@ -119,7 +119,7 @@ public class DatePattern {
      * @throws ParseException
      */
     public Date parse(final String targetString) throws ParseException {
-        return getDateFormat().parse(targetString);
+        return getFormat().parse(targetString);
     }
 
     /**
@@ -127,7 +127,7 @@ public class DatePattern {
      * 
      * @return date format.
      */
-    private DateFormat getDateFormat() {
+    private DateFormat getFormat() {
         return dateFormatCache.getInstance(pattern, locale);
     }
 
