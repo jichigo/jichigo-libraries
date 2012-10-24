@@ -93,8 +93,8 @@ public class DatePattern {
      * @param pattern date pattern.
      * @return DatePattern instance of Default Locale.
      */
-    public static DatePattern getInstance(final String pattern) {
-        return getInstance(pattern, Locale.getDefault());
+    public static DatePattern getPattern(final String pattern) {
+        return getPattern(pattern, Locale.getDefault());
     }
 
     /**
@@ -104,7 +104,7 @@ public class DatePattern {
      * @param locale locale
      * @return DatePattern instance.
      */
-    public static DatePattern getInstance(final String pattern, final Locale locale) {
+    public static DatePattern getPattern(final String pattern, final Locale locale) {
         return datePatternCache.get(pattern, locale);
 
     }

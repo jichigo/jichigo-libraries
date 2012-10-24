@@ -81,7 +81,7 @@ public class NumberPattern {
      * @param pattern decimal pattern.
      * @return DecimalPattern instance.
      */
-    public static NumberPattern getInstance(final String pattern) {
+    public static NumberPattern getPattern(final String pattern) {
         return numberPatternCache.get(pattern);
     }
 

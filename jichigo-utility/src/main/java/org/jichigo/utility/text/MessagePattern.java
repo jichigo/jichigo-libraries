@@ -89,8 +89,8 @@ public class MessagePattern {
      * @param pattern message pattern.
      * @return MessagePattern instance of Default Locale.
      */
-    public static MessagePattern getInstance(final String pattern) {
-        return getInstance(pattern, Locale.getDefault());
+    public static MessagePattern getPattern(final String pattern) {
+        return getPattern(pattern, Locale.getDefault());
     }
 
     /**
@@ -100,7 +100,7 @@ public class MessagePattern {
      * @param locale locale
      * @return MessagePattern instance.
      */
-    public static MessagePattern getInstance(final String pattern, final Locale locale) {
+    public static MessagePattern getPattern(final String pattern, final Locale locale) {
         return messagePatternCache.get(pattern, locale);
 
     }
