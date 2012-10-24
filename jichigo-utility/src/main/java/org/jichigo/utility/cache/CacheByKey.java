@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public abstract class InstanceCacheByKey<T> implements InstanceCache<T> {
+public abstract class CacheByKey<T> implements Cache<T> {
 
     /**
      * instance cache.

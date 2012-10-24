@@ -28,7 +28,7 @@ package org.jichigo.utility.cache;
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public interface InstanceCache<T> {
+public interface Cache<T> {
 
     /**
      * Get instance.

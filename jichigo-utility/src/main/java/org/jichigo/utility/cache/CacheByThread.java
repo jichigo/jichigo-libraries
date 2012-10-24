@@ -31,7 +31,7 @@ package org.jichigo.utility.cache;
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public abstract class InstanceCacheByThread<T> implements InstanceCache<T> {
+public abstract class CacheByThread<T> implements Cache<T> {
 
     /**
      * instance cache.

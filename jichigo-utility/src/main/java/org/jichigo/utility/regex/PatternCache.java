@@ -23,8 +23,8 @@ package org.jichigo.utility.regex;
 
 import java.util.regex.Pattern;
 
-import org.jichigo.utility.cache.InstanceCache;
-import org.jichigo.utility.cache.InstanceCacheByKey;
+import org.jichigo.utility.cache.Cache;
+import org.jichigo.utility.cache.CacheByKey;
 
 /**
  * Pattern cache class.
@@ -38,7 +38,7 @@ public class PatternCache {
     /**
      * instance cache.
      */
-    private static final InstanceCache<Pattern> cache = new InstanceCacheByKey<Pattern>() {
+    private static final Cache<Pattern> cache = new CacheByKey<Pattern>() {
         @Override
         protected Pattern create(final Object... args) {
             final String regex = String.class.cast(args[0]);

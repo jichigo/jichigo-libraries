@@ -24,9 +24,9 @@ package org.jichigo.utility.text;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import org.jichigo.utility.cache.InstanceCache;
-import org.jichigo.utility.cache.InstanceCacheByKey;
-import org.jichigo.utility.cache.InstanceCacheByThread;
+import org.jichigo.utility.cache.Cache;
+import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.CacheByThread;
 
 /**
  * Message Pattern class.
@@ -40,7 +40,7 @@ public class MessagePattern {
     /**
      * instance cache.
      */
-    private static final InstanceCache<MessagePattern> messagePatternCache = new InstanceCacheByKey<MessagePattern>() {
+    private static final Cache<MessagePattern> messagePatternCache = new CacheByKey<MessagePattern>() {
         @Override
         protected MessagePattern create(final Object... args) {
             final String pattern = String.class.cast(args[0]);
@@ -52,7 +52,7 @@ public class MessagePattern {
     /**
      * message format cache.
      */
-    private final InstanceCache<MessageFormat> messageFormatCache = new InstanceCacheByThread<MessageFormat>() {
+    private final Cache<MessageFormat> messageFormatCache = new CacheByThread<MessageFormat>() {
         @Override
         protected MessageFormat create(final Object... args) {
             final MessageFormat instance = new MessageFormat(pattern, locale);
