@@ -24,9 +24,9 @@ package org.jichigo.utility.text;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import org.jichigo.utility.cache.Cache;
-import org.jichigo.utility.cache.ObjectCacheByKey;
-import org.jichigo.utility.cache.ObjectCacheByThread;
+import org.jichigo.utility.cache.InstanceCache;
+import org.jichigo.utility.cache.InstanceCacheByKey;
+import org.jichigo.utility.cache.InstanceCacheByThread;
 
 /**
  * Message Pattern class.
@@ -40,9 +40,9 @@ public class MessagePattern {
     /**
      * instance cache.
      */
-    private static final Cache<MessagePattern> messagePatternCache = new ObjectCacheByKey<MessagePattern>() {
+    private static final InstanceCache<MessagePattern> messagePatternCache = new InstanceCacheByKey<MessagePattern>() {
         @Override
-        protected MessagePattern createInstance(final Object... args) {
+        protected MessagePattern create(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             final Locale locale = Locale.class.cast(args[1]);
             return new MessagePattern(pattern, locale);
@@ -52,9 +52,9 @@ public class MessagePattern {
     /**
      * message format cache.
      */
-    private final Cache<MessageFormat> messageFormatCache = new ObjectCacheByThread<MessageFormat>() {
+    private final InstanceCache<MessageFormat> messageFormatCache = new InstanceCacheByThread<MessageFormat>() {
         @Override
-        protected MessageFormat createInstance(final Object... args) {
+        protected MessageFormat create(final Object... args) {
             final MessageFormat instance = new MessageFormat(pattern, locale);
             return instance;
         }
@@ -98,7 +98,7 @@ public class MessagePattern {
      * @return MessagePattern instance.
      */
     public static MessagePattern getInstance(final String pattern, final Locale locale) {
-        return messagePatternCache.getInstance(pattern, locale);
+        return messagePatternCache.get(pattern, locale);
 
     }
 
@@ -118,7 +118,7 @@ public class MessagePattern {
      * @return message format.
      */
     private MessageFormat getFormat() {
-        return messageFormatCache.getInstance(pattern, locale);
+        return messageFormatCache.get(pattern, locale);
     }
 
 }

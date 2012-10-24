@@ -24,9 +24,9 @@ package org.jichigo.utility.text;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-import org.jichigo.utility.cache.Cache;
-import org.jichigo.utility.cache.ObjectCacheByKey;
-import org.jichigo.utility.cache.ObjectCacheByThread;
+import org.jichigo.utility.cache.InstanceCache;
+import org.jichigo.utility.cache.InstanceCacheByKey;
+import org.jichigo.utility.cache.InstanceCacheByThread;
 
 /**
  * Number Pattern class.
@@ -40,9 +40,9 @@ public class NumberPattern {
     /**
      * instance cache.
      */
-    private static final Cache<NumberPattern> numberPatternCache = new ObjectCacheByKey<NumberPattern>() {
+    private static final InstanceCache<NumberPattern> numberPatternCache = new InstanceCacheByKey<NumberPattern>() {
         @Override
-        protected NumberPattern createInstance(final Object... args) {
+        protected NumberPattern create(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             return new NumberPattern(pattern);
         }
@@ -51,9 +51,9 @@ public class NumberPattern {
     /**
      * Decimal format for thread.
      */
-    private final Cache<DecimalFormat> decimalFormatCache = new ObjectCacheByThread<DecimalFormat>() {
+    private final InstanceCache<DecimalFormat> decimalFormatCache = new InstanceCacheByThread<DecimalFormat>() {
         @Override
-        protected DecimalFormat createInstance(final Object... args) {
+        protected DecimalFormat create(final Object... args) {
             return new DecimalFormat(pattern);
         }
     };
@@ -79,7 +79,7 @@ public class NumberPattern {
      * @return DecimalPattern instance.
      */
     public static NumberPattern getInstance(final String pattern) {
-        return numberPatternCache.getInstance(pattern);
+        return numberPatternCache.get(pattern);
     }
 
     /**
@@ -109,7 +109,7 @@ public class NumberPattern {
      * @return decimal format.
      */
     private DecimalFormat getFormat() {
-        return decimalFormatCache.getInstance(pattern);
+        return decimalFormatCache.get(pattern);
     }
 
 }

@@ -22,42 +22,19 @@
 package org.jichigo.utility.cache;
 
 /**
- * Object cache by thread.
- * <p>
- * using thread local.
- * </p>
+ * Cache interface.
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public abstract class ObjectCacheByThread<T> implements Cache<T> {
-
-    /**
-     * instance cache.
-     */
-    private final ThreadLocal<T> cache = new ThreadLocal<T>();
+public interface InstanceCache<T> {
 
     /**
      * Get instance.
      * 
-     * @param objects cache target objects.
-     * @return instance.
-     */
-    public T getInstance(final Object... objects) {
-        T instance = cache.get();
-        if (instance == null) {
-            instance = createInstance(objects);
-            cache.set(instance);
-        }
-        return instance;
-    }
-
-    /**
-     * Create instance.
-     * 
      * @param args
      */
-    protected abstract T createInstance(final Object... args);
+    T get(Object... args);
 
 }

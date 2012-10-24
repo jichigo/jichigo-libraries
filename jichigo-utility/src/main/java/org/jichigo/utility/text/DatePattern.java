@@ -27,9 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.jichigo.utility.cache.Cache;
-import org.jichigo.utility.cache.ObjectCacheByKey;
-import org.jichigo.utility.cache.ObjectCacheByThread;
+import org.jichigo.utility.cache.InstanceCache;
+import org.jichigo.utility.cache.InstanceCacheByKey;
+import org.jichigo.utility.cache.InstanceCacheByThread;
 
 /**
  * Date Pattern class.
@@ -43,9 +43,9 @@ public class DatePattern {
     /**
      * instance cache.
      */
-    private static final Cache<DatePattern> datePatternCache = new ObjectCacheByKey<DatePattern>() {
+    private static final InstanceCache<DatePattern> datePatternCache = new InstanceCacheByKey<DatePattern>() {
         @Override
-        protected DatePattern createInstance(final Object... args) {
+        protected DatePattern create(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             final Locale locale = Locale.class.cast(args[1]);
             return new DatePattern(pattern, locale);
@@ -55,9 +55,9 @@ public class DatePattern {
     /**
      * date format cache.
      */
-    private final Cache<DateFormat> dateFormatCache = new ObjectCacheByThread<DateFormat>() {
+    private final InstanceCache<DateFormat> dateFormatCache = new InstanceCacheByThread<DateFormat>() {
         @Override
-        protected DateFormat createInstance(final Object... args) {
+        protected DateFormat create(final Object... args) {
             final DateFormat instance = new SimpleDateFormat(pattern, locale);
             instance.setLenient(false);
             return instance;
@@ -102,7 +102,7 @@ public class DatePattern {
      * @return DatePattern instance.
      */
     public static DatePattern getInstance(final String pattern, final Locale locale) {
-        return datePatternCache.getInstance(pattern, locale);
+        return datePatternCache.get(pattern, locale);
 
     }
 
@@ -133,7 +133,7 @@ public class DatePattern {
      * @return date format.
      */
     private DateFormat getFormat() {
-        return dateFormatCache.getInstance(pattern, locale);
+        return dateFormatCache.get(pattern, locale);
     }
 
 }

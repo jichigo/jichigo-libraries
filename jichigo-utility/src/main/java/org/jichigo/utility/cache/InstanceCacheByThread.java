@@ -21,25 +21,22 @@
  */
 package org.jichigo.utility.cache;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 /**
- * Object cache by key.
+ * Object cache by thread.
  * <p>
- * key is getInstance method's argument.
+ * using thread local.
  * </p>
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public abstract class ObjectCacheByKey<T> implements Cache<T> {
+public abstract class InstanceCacheByThread<T> implements InstanceCache<T> {
 
     /**
      * instance cache.
      */
-    private final ConcurrentMap<String, T> cache = new ConcurrentHashMap<String, T>();
+    private final ThreadLocal<T> cache = new ThreadLocal<T>();
 
     /**
      * Get instance.
@@ -47,36 +44,13 @@ public abstract class ObjectCacheByKey<T> implements Cache<T> {
      * @param objects cache target objects.
      * @return instance.
      */
-    public T getInstance(final Object... objects) {
-        final String cachekey = generateCacheKey(objects);
-        T instance = cache.get(cachekey);
+    public T get(final Object... objects) {
+        T instance = cache.get();
         if (instance == null) {
-            synchronized (cachekey.intern()) {
-                instance = cache.get(cachekey);
-                if (instance == null) {
-                    instance = createInstance(objects);
-                    cache.put(cachekey, instance);
-                }
-            }
+            instance = create(objects);
+            cache.set(instance);
         }
         return instance;
-    }
-
-    /**
-     * Generate cache key.
-     * 
-     * @param objects cache target objects.
-     * @return cache key.
-     */
-    protected String generateCacheKey(final Object... objects) {
-        final StringBuilder cachekeySb = new StringBuilder();
-        for (final Object object : objects) {
-            cachekeySb.append(object).append("_");
-        }
-        if (0 < cachekeySb.length()) {
-            cachekeySb.deleteCharAt(cachekeySb.length() - 1);
-        }
-        return cachekeySb.toString();
     }
 
     /**
@@ -84,6 +58,6 @@ public abstract class ObjectCacheByKey<T> implements Cache<T> {
      * 
      * @param args
      */
-    protected abstract T createInstance(final Object... args);
+    protected abstract T create(final Object... args);
 
 }
