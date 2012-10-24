@@ -30,6 +30,10 @@ import org.jichigo.utility.cache.ObjectCacheByThread;
 
 /**
  * Number Pattern class.
+ * 
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author created by Kazuki Shimizu
  */
 public class NumberPattern {
 
@@ -49,7 +53,7 @@ public class NumberPattern {
      */
     private final Cache<DecimalFormat> decimalFormatCache = new ObjectCacheByThread<DecimalFormat>() {
         @Override
-        protected DecimalFormat createInstance() {
+        protected DecimalFormat createInstance(final Object... args) {
             return new DecimalFormat(pattern);
         }
     };

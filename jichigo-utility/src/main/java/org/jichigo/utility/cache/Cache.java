@@ -23,6 +23,10 @@ package org.jichigo.utility.cache;
 
 /**
  * Cache interface.
+ * 
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author created by Kazuki Shimizu
  */
 public interface Cache<T> {
 

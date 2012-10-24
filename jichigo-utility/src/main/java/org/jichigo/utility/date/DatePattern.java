@@ -33,6 +33,10 @@ import org.jichigo.utility.cache.ObjectCacheByThread;
 
 /**
  * Date Pattern class.
+ * 
+ * @since 1.0.0
+ * @version 1.0.0
+ * @author created by Kazuki Shimizu
  */
 public class DatePattern {
 
@@ -53,7 +57,7 @@ public class DatePattern {
      */
     private final Cache<DateFormat> dateFormatCache = new ObjectCacheByThread<DateFormat>() {
         @Override
-        protected DateFormat createInstance() {
+        protected DateFormat createInstance(final Object... args) {
             final DateFormat instance = new SimpleDateFormat(pattern, locale);
             instance.setLenient(false);
             return instance;
