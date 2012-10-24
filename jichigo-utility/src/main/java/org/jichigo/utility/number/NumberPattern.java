@@ -21,34 +21,31 @@
  */
 package org.jichigo.utility.number;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.ObjectKeyCache;
 import org.jichigo.utility.cache.ObjectThreadCache;
-import org.jichigo.utility.timer.StopWatch;
 
 /**
- * Decimal Pattern class.
+ * Number Pattern class.
  */
-public class DecimalPattern {
+public class NumberPattern {
 
     /**
      * instance cache.
      */
-    private static final Cache<DecimalPattern> decimalPatternCache = new ObjectKeyCache<DecimalPattern>() {
+    private static final Cache<NumberPattern> decimalPatternCache = new ObjectKeyCache<NumberPattern>() {
         @Override
-        protected DecimalPattern createInstance(final Object... args) {
+        protected NumberPattern createInstance(final Object... args) {
             final String pattern = (String) args[0];
-            return new DecimalPattern(pattern);
+            return new NumberPattern(pattern);
         }
     };
 
     /**
-     * decimal format for thread.
+     * Decimal format for thread.
      */
     private final Cache<DecimalFormat> decimalFormatCache = new ObjectThreadCache<DecimalFormat>() {
         @Override
@@ -68,22 +65,22 @@ public class DecimalPattern {
      * @param pattern decimal pattern string.
      * @param locale locale.
      */
-    private DecimalPattern(final String pattern) {
+    private NumberPattern(final String pattern) {
         this.pattern = pattern;
     }
 
     /**
-     * Get DecimalPattern instance.
+     * Get NumberPattern instance.
      * 
      * @param pattern decimal pattern.
      * @return DecimalPattern instance.
      */
-    public static DecimalPattern getInstance(final String pattern) {
+    public static NumberPattern getInstance(final String pattern) {
         return decimalPatternCache.getInstance(pattern);
     }
 
     /**
-     * format date.
+     * format number.
      * 
      * @param targetNumber target number.
      * @return formatted string.
@@ -93,10 +90,10 @@ public class DecimalPattern {
     }
 
     /**
-     * Parse date string.
+     * Parse number string.
      * 
      * @param targetNumberString target number string.
-     * @return date.
+     * @return number.
      * @throws ParseException
      */
     public Number parse(final String targetNumberString) throws ParseException {

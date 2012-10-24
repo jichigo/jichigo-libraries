@@ -30,7 +30,6 @@ import java.util.Locale;
 import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.ObjectKeyCache;
 import org.jichigo.utility.cache.ObjectThreadCache;
-import org.jichigo.utility.timer.StopWatch;
 
 /**
  * Date Pattern class.
@@ -44,7 +43,7 @@ public class DatePattern {
         @Override
         protected DatePattern createInstance(final Object... args) {
             final String pattern = (String) args[0];
-            final String locale = (Locale) args[1];
+            final Locale locale = (Locale) args[1];
             return new DatePattern(pattern, locale);
         }
     };
@@ -56,7 +55,7 @@ public class DatePattern {
         @Override
         protected DateFormat createInstance(final Object... args) {
             final String pattern = (String) args[0];
-            final String locale = (Locale) args[1];
+            final Locale locale = (Locale) args[1];
             final DateFormat instance = new SimpleDateFormat(pattern, locale);
             instance.setLenient(false);
             return instance;
