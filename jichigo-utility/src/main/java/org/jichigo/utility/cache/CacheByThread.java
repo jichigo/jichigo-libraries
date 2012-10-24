@@ -24,7 +24,8 @@ package org.jichigo.utility.cache;
 /**
  * Object cache by thread.
  * <p>
- * using thread local.
+ * using thread local.<br>
+ * this class's instance is thread safe.
  * </p>
  * 
  * @since 1.0.0

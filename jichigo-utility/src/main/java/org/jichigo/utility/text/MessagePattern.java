@@ -30,6 +30,9 @@ import org.jichigo.utility.cache.CacheByThread;
 
 /**
  * Message Pattern class.
+ * <p>
+ * this class's instance is thread safe.
+ * </p>
  * 
  * @since 1.0.0
  * @version 1.0.0

@@ -27,7 +27,8 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Object cache by key.
  * <p>
- * key is getInstance method's argument.
+ * key is getInstance method's argument.<br>
+ * this class's instance is thread safe.
  * </p>
  * 
  * @since 1.0.0
