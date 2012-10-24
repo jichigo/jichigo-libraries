@@ -27,18 +27,18 @@ import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.ObjectCacheByKey;
 
 /**
- * Regex class.
+ * Pattern cache class.
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public class RegexCache {
+public class PatternCache {
 
     /**
      * instance cache.
      */
-    private static final Cache<Pattern> patternCache = new ObjectCacheByKey<Pattern>() {
+    private static final Cache<Pattern> cache = new ObjectCacheByKey<Pattern>() {
         @Override
         protected Pattern createInstance(final Object... args) {
             final String regex = String.class.cast(args[0]);
@@ -53,7 +53,7 @@ public class RegexCache {
      * @return Pattern instance.
      */
     public static Pattern getPattern(final String regex) {
-        return patternCache.getInstance(regex);
+        return cache.getInstance(regex);
     }
 
 }
