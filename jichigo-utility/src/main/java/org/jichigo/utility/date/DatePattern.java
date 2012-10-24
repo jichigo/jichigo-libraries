@@ -28,8 +28,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.jichigo.utility.cache.Cache;
-import org.jichigo.utility.cache.ObjectKeyCache;
-import org.jichigo.utility.cache.ObjectThreadCache;
+import org.jichigo.utility.cache.ObjectCacheByKey;
+import org.jichigo.utility.cache.ObjectCacheByThread;
 
 /**
  * Date Pattern class.
@@ -39,7 +39,7 @@ public class DatePattern {
     /**
      * instance cache.
      */
-    private static final Cache<DatePattern> datePatternCache = new ObjectKeyCache<DatePattern>() {
+    private static final Cache<DatePattern> datePatternCache = new ObjectCacheByKey<DatePattern>() {
         @Override
         protected DatePattern createInstance(final Object... args) {
             final String pattern = (String) args[0];
@@ -51,7 +51,7 @@ public class DatePattern {
     /**
      * date format cache.
      */
-    private final Cache<DateFormat> dateFormatCache = new ObjectThreadCache<DateFormat>() {
+    private final Cache<DateFormat> dateFormatCache = new ObjectCacheByThread<DateFormat>() {
         @Override
         protected DateFormat createInstance(final Object... args) {
             final String pattern = (String) args[0];
