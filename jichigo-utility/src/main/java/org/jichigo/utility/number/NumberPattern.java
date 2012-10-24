@@ -36,10 +36,10 @@ public class NumberPattern {
     /**
      * instance cache.
      */
-    private static final Cache<NumberPattern> decimalPatternCache = new ObjectCacheByKey<NumberPattern>() {
+    private static final Cache<NumberPattern> numberPatternCache = new ObjectCacheByKey<NumberPattern>() {
         @Override
         protected NumberPattern createInstance(final Object... args) {
-            final String pattern = (String) args[0];
+            final String pattern = String.class.cast(args[0]);
             return new NumberPattern(pattern);
         }
     };
@@ -49,8 +49,7 @@ public class NumberPattern {
      */
     private final Cache<DecimalFormat> decimalFormatCache = new ObjectCacheByThread<DecimalFormat>() {
         @Override
-        protected DecimalFormat createInstance(final Object... args) {
-            final String pattern = (String) args[0];
+        protected DecimalFormat createInstance() {
             return new DecimalFormat(pattern);
         }
     };
@@ -76,7 +75,7 @@ public class NumberPattern {
      * @return DecimalPattern instance.
      */
     public static NumberPattern getInstance(final String pattern) {
-        return decimalPatternCache.getInstance(pattern);
+        return numberPatternCache.getInstance(pattern);
     }
 
     /**

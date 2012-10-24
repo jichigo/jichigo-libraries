@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentMap;
  * key is getInstance method's argument.
  * </p>
  */
-public abstract class ObjectCacheByKey<T> extends AbstractCache<T> implements Cache<T> {
+public abstract class ObjectCacheByKey<T> implements Cache<T> {
 
     /**
      * instance cache.
@@ -74,5 +74,12 @@ public abstract class ObjectCacheByKey<T> extends AbstractCache<T> implements Ca
         }
         return cachekeySb.toString();
     }
+
+    /**
+     * Create instance.
+     * 
+     * @param args
+     */
+    protected abstract T createInstance(final Object... args);
 
 }

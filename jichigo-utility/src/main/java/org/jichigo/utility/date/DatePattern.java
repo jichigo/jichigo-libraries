@@ -42,8 +42,8 @@ public class DatePattern {
     private static final Cache<DatePattern> datePatternCache = new ObjectCacheByKey<DatePattern>() {
         @Override
         protected DatePattern createInstance(final Object... args) {
-            final String pattern = (String) args[0];
-            final Locale locale = (Locale) args[1];
+            final String pattern = String.class.cast(args[0]);
+            final Locale locale = Locale.class.cast(args[1]);
             return new DatePattern(pattern, locale);
         }
     };
@@ -53,9 +53,7 @@ public class DatePattern {
      */
     private final Cache<DateFormat> dateFormatCache = new ObjectCacheByThread<DateFormat>() {
         @Override
-        protected DateFormat createInstance(final Object... args) {
-            final String pattern = (String) args[0];
-            final Locale locale = (Locale) args[1];
+        protected DateFormat createInstance() {
             final DateFormat instance = new SimpleDateFormat(pattern, locale);
             instance.setLenient(false);
             return instance;

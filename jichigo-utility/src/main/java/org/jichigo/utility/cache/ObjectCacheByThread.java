@@ -27,7 +27,7 @@ package org.jichigo.utility.cache;
  * using thread local.
  * </p>
  */
-public abstract class ObjectCacheByThread<T> extends AbstractCache<T> implements Cache<T> {
+public abstract class ObjectCacheByThread<T> implements Cache<T> {
 
     /**
      * instance cache.
@@ -43,10 +43,17 @@ public abstract class ObjectCacheByThread<T> extends AbstractCache<T> implements
     public T getInstance(final Object... objects) {
         T instance = cache.get();
         if (instance == null) {
-            instance = createInstance(objects);
+            instance = createInstance();
             cache.set(instance);
         }
         return instance;
     }
+
+    /**
+     * Create instance.
+     * 
+     * @param args
+     */
+    protected abstract T createInstance();
 
 }
