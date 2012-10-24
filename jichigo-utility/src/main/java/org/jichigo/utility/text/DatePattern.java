@@ -19,9 +19,12 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.jichigo.utility.message;
+package org.jichigo.utility.text;
 
-import java.text.MessageFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import org.jichigo.utility.cache.Cache;
@@ -29,39 +32,40 @@ import org.jichigo.utility.cache.ObjectCacheByKey;
 import org.jichigo.utility.cache.ObjectCacheByThread;
 
 /**
- * Message Pattern class.
+ * Date Pattern class.
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public class MessagePattern {
+public class DatePattern {
 
     /**
      * instance cache.
      */
-    private static final Cache<MessagePattern> messagePatternCache = new ObjectCacheByKey<MessagePattern>() {
+    private static final Cache<DatePattern> datePatternCache = new ObjectCacheByKey<DatePattern>() {
         @Override
-        protected MessagePattern createInstance(final Object... args) {
+        protected DatePattern createInstance(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             final Locale locale = Locale.class.cast(args[1]);
-            return new MessagePattern(pattern, locale);
+            return new DatePattern(pattern, locale);
         }
     };
 
     /**
-     * message format cache.
+     * date format cache.
      */
-    private final Cache<MessageFormat> messageFormatCache = new ObjectCacheByThread<MessageFormat>() {
+    private final Cache<DateFormat> dateFormatCache = new ObjectCacheByThread<DateFormat>() {
         @Override
-        protected MessageFormat createInstance(final Object... args) {
-            final MessageFormat instance = new MessageFormat(pattern, locale);
+        protected DateFormat createInstance(final Object... args) {
+            final DateFormat instance = new SimpleDateFormat(pattern, locale);
+            instance.setLenient(false);
             return instance;
         }
     };
 
     /**
-     * message pattern string.
+     * date pattern string.
      */
     private final String pattern;
 
@@ -72,53 +76,64 @@ public class MessagePattern {
 
     /**
      * 
-     * @param pattern message pattern string.
+     * @param pattern date pattern string.
      * @param locale locale.
      */
-    private MessagePattern(final String pattern, final Locale locale) {
+    private DatePattern(final String pattern, final Locale locale) {
         this.pattern = pattern;
         this.locale = locale;
     }
 
     /**
-     * Get MessagePattern instance of Default Locale.
+     * Get DatePattern instance of Default Locale.
      * 
-     * @param pattern message pattern.
-     * @return MessagePattern instance of Default Locale.
+     * @param pattern date pattern.
+     * @return DatePattern instance of Default Locale.
      */
-    public static MessagePattern getInstance(final String pattern) {
+    public static DatePattern getInstance(final String pattern) {
         return getInstance(pattern, Locale.getDefault());
     }
 
     /**
-     * Get MessagePattern instance.
+     * Get DatePattern instance.
      * 
-     * @param pattern message pattern.
+     * @param pattern date pattern.
      * @param locale locale
-     * @return MessagePattern instance.
+     * @return DatePattern instance.
      */
-    public static MessagePattern getInstance(final String pattern, final Locale locale) {
-        return messagePatternCache.getInstance(pattern, locale);
+    public static DatePattern getInstance(final String pattern, final Locale locale) {
+        return datePatternCache.getInstance(pattern, locale);
 
     }
 
     /**
-     * format message.
+     * format date.
      * 
-     * @param messageArgs message args.
+     * @param targetDate target date.
      * @return formatted string.
      */
-    public String format(final Object... messageArgs) {
-        return getFormat().format(messageArgs);
+    public String format(final Date targetDate) {
+        return getFormat().format(targetDate);
     }
 
     /**
-     * Get message format.
+     * Parse date string.
      * 
-     * @return message format.
+     * @param targetDateString target date string.
+     * @return date.
+     * @throws ParseException
      */
-    private MessageFormat getFormat() {
-        return messageFormatCache.getInstance(pattern, locale);
+    public Date parse(final String targetDateString) throws ParseException {
+        return getFormat().parse(targetDateString);
+    }
+
+    /**
+     * Get date format.
+     * 
+     * @return date format.
+     */
+    private DateFormat getFormat() {
+        return dateFormatCache.getInstance(pattern, locale);
     }
 
 }
