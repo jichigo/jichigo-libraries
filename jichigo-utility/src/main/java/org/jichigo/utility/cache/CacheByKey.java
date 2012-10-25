@@ -55,7 +55,7 @@ public abstract class CacheByKey<T> implements Cache<T> {
             synchronized (cachekey.intern()) {
                 instance = cache.get(cachekey);
                 if (instance == null) {
-                    instance = create(objects);
+                    instance = initialValue(objects);
                     cache.put(cachekey, instance);
                 }
             }
@@ -85,6 +85,6 @@ public abstract class CacheByKey<T> implements Cache<T> {
      * 
      * @param args
      */
-    protected abstract T create(final Object... args);
+    protected abstract T initialValue(final Object... args);
 
 }

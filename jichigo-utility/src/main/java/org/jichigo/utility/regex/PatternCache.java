@@ -40,7 +40,7 @@ public class PatternCache {
      */
     private static final Cache<Pattern> cache = new CacheByKey<Pattern>() {
         @Override
-        protected Pattern create(final Object... args) {
+        protected Pattern initialValue(final Object... args) {
             final String regex = String.class.cast(args[0]);
             return Pattern.compile(regex);
         }

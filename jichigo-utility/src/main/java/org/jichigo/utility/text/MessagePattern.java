@@ -26,7 +26,6 @@ import java.util.Locale;
 
 import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
-import org.jichigo.utility.cache.CacheByThread;
 
 /**
  * Message Pattern class.
@@ -45,7 +44,7 @@ public class MessagePattern {
      */
     private static final Cache<MessagePattern> messagePatternCache = new CacheByKey<MessagePattern>() {
         @Override
-        protected MessagePattern create(final Object... args) {
+        protected MessagePattern initialValue(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             final Locale locale = Locale.class.cast(args[1]);
             return new MessagePattern(pattern, locale);
@@ -55,9 +54,9 @@ public class MessagePattern {
     /**
      * message format cache.
      */
-    private final Cache<MessageFormat> messageFormatCache = new CacheByThread<MessageFormat>() {
+    private final ThreadLocal<MessageFormat> messageFormatCache = new ThreadLocal<MessageFormat>() {
         @Override
-        protected MessageFormat create(final Object... args) {
+        protected MessageFormat initialValue() {
             final MessageFormat instance = new MessageFormat(pattern, locale);
             return instance;
         }
@@ -121,7 +120,7 @@ public class MessagePattern {
      * @return message format.
      */
     private MessageFormat getFormat() {
-        return messageFormatCache.get(pattern, locale);
+        return messageFormatCache.get();
     }
 
 }

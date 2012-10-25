@@ -26,7 +26,6 @@ import java.text.ParseException;
 
 import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
-import org.jichigo.utility.cache.CacheByThread;
 
 /**
  * Number Pattern class.
@@ -45,18 +44,18 @@ public class NumberPattern {
      */
     private static final Cache<NumberPattern> numberPatternCache = new CacheByKey<NumberPattern>() {
         @Override
-        protected NumberPattern create(final Object... args) {
+        protected NumberPattern initialValue(final Object... args) {
             final String pattern = String.class.cast(args[0]);
             return new NumberPattern(pattern);
         }
     };
 
     /**
-     * Decimal format for thread.
+     * message format cache.
      */
-    private final Cache<DecimalFormat> decimalFormatCache = new CacheByThread<DecimalFormat>() {
+    private final ThreadLocal<DecimalFormat> decimalFormatCache = new ThreadLocal<DecimalFormat>() {
         @Override
-        protected DecimalFormat create(final Object... args) {
+        protected DecimalFormat initialValue() {
             return new DecimalFormat(pattern);
         }
     };
@@ -112,7 +111,7 @@ public class NumberPattern {
      * @return decimal format.
      */
     private DecimalFormat getFormat() {
-        return decimalFormatCache.get(pattern);
+        return decimalFormatCache.get();
     }
 
 }
