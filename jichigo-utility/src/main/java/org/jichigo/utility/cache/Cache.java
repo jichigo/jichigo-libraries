@@ -33,7 +33,7 @@ public interface Cache<T> {
     /**
      * Get instance.
      * 
-     * @param args
+     * @param args cache target objects.
      */
     T get(Object... args);
 

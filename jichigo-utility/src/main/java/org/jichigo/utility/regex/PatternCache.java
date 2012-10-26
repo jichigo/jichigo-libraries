@@ -39,6 +39,11 @@ public class PatternCache {
      * instance cache.
      */
     private static final Cache<Pattern> cache = new CacheByKey<Pattern>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see org.jichigo.utility.cache.CacheByKey#initialValue(java.lang.Object[])
+         */
         @Override
         protected Pattern initialValue(final Object... args) {
             final String regex = String.class.cast(args[0]);

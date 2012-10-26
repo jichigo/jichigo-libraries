@@ -43,6 +43,11 @@ public class MessagePattern {
      * instance cache.
      */
     private static final Cache<MessagePattern> messagePatternCache = new CacheByKey<MessagePattern>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see org.jichigo.utility.cache.CacheByKey#initialValue(java.lang.Object[])
+         */
         @Override
         protected MessagePattern initialValue(final Object... args) {
             final String pattern = String.class.cast(args[0]);
@@ -55,6 +60,11 @@ public class MessagePattern {
      * message format cache.
      */
     private final ThreadLocal<MessageFormat> messageFormatCache = new ThreadLocal<MessageFormat>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see java.lang.ThreadLocal#initialValue()
+         */
         @Override
         protected MessageFormat initialValue() {
             final MessageFormat instance = new MessageFormat(pattern, locale);

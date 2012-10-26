@@ -83,7 +83,7 @@ public abstract class CacheByKey<T> implements Cache<T> {
     /**
      * Create instance.
      * 
-     * @param args
+     * @param args cache target objects.
      */
     protected abstract T initialValue(final Object... args);
 

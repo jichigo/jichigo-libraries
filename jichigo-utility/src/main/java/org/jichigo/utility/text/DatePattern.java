@@ -46,6 +46,11 @@ public class DatePattern {
      * instance cache.
      */
     private static final Cache<DatePattern> datePatternCache = new CacheByKey<DatePattern>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see org.jichigo.utility.cache.CacheByKey#initialValue(java.lang.Object[])
+         */
         @Override
         protected DatePattern initialValue(final Object... args) {
             final String pattern = String.class.cast(args[0]);
@@ -58,6 +63,11 @@ public class DatePattern {
      * date format cache.
      */
     private final ThreadLocal<DateFormat> dateFormatCache = new ThreadLocal<DateFormat>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see java.lang.ThreadLocal#initialValue()
+         */
         @Override
         protected DateFormat initialValue() {
             final DateFormat instance = new SimpleDateFormat(pattern, locale);

@@ -43,6 +43,11 @@ public class NumberPattern {
      * instance cache.
      */
     private static final Cache<NumberPattern> numberPatternCache = new CacheByKey<NumberPattern>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see org.jichigo.utility.cache.CacheByKey#initialValue(java.lang.Object[])
+         */
         @Override
         protected NumberPattern initialValue(final Object... args) {
             final String pattern = String.class.cast(args[0]);
@@ -54,6 +59,11 @@ public class NumberPattern {
      * message format cache.
      */
     private final ThreadLocal<DecimalFormat> decimalFormatCache = new ThreadLocal<DecimalFormat>() {
+        /*
+         * (”ñ Javadoc)
+         * 
+         * @see java.lang.ThreadLocal#initialValue()
+         */
         @Override
         protected DecimalFormat initialValue() {
             return new DecimalFormat(pattern);
