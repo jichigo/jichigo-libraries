@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * @since 1.0.0
  * @version 1.0.0
- * @author kazuki
+ * @author created by Kazuki Shimizu
  */
 public class StopWatch {
 
@@ -237,7 +237,7 @@ public class StopWatch {
      * 
      * @since 1.0.0
      * @version 1.0.0
-     * @author Kazuki Shimizu
+     * @author created by Kazuki Shimizu
      */
     public interface StopWatchPrinter {
         void print(StopWatch stopWatch);
@@ -248,7 +248,7 @@ public class StopWatch {
      * 
      * @since 1.0.0
      * @version 1.0.0
-     * @author Kazuki Shimizu
+     * @author created by Kazuki Shimizu
      */
     public static class DefaultStopWatchPrinter implements StopWatchPrinter {
 
