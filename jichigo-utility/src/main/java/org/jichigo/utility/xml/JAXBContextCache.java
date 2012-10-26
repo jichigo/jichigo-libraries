@@ -108,7 +108,7 @@ public class JAXBContextCache {
          * 
          * @param causeJAXBException JAXBException.
          */
-        private NestedJAXBException(JAXBException causeJAXBException) {
+        private NestedJAXBException(final JAXBException causeJAXBException) {
             super(causeJAXBException);
             this.causeJAXBException = causeJAXBException;
         }
