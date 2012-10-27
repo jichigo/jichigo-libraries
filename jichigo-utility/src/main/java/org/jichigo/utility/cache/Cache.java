@@ -47,4 +47,9 @@ public interface Cache<T> {
      */
     T get(final boolean doCache, Object... args);
 
+    /**
+     * Clear cache.
+     */
+    void clear();
+
 }

@@ -79,7 +79,8 @@ public class SchemaCache {
             } else if (Source[].class.isInstance(source)) {
                 return factory.newSchema(Source[].class.cast(source));
             } else {
-                throw new IllegalArgumentException("source class is unsupported. class is '" + source.getClass() + "'.");
+                final String className = (source == null) ? "null" : source.getClass().getName();
+                throw new IllegalArgumentException("source class is unsupported. class is " + className + ".");
             }
         } catch (final SAXException e) {
             throw new NestedSAXException(e);
@@ -88,12 +89,22 @@ public class SchemaCache {
 
     /**
      * Get Schema instance.
+     * <p>
+     * source's supported type is under. <br>
+     * {@code java.net.URL}<br>
+     * {@code java.net.File}<br>
+     * {@code java.net.Source}<br>
+     * {@code java.net.Source[]}<br>
+     * </p>
+     * <p>
+     * schema language is {@code javax.xml.XMLConstants}.W3C_XML_SCHEMA_NS_URI
+     * </p>
      * 
      * @param source schema source.
      * @return Schema instance.
      */
     public static Schema getSchema(final Object source) throws SAXException {
-        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source, Cache.CACHE);
+        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source);
     }
 
     /**
@@ -101,16 +112,34 @@ public class SchemaCache {
      * <p>
      * if not exists in cache, only create instance. (no cache)
      * </p>
+     * <p>
+     * source's supported type is under. <br>
+     * {@code java.net.URL}<br>
+     * {@code java.net.File}<br>
+     * {@code java.net.Source}<br>
+     * {@code java.net.Source[]}<br>
+     * </p>
+     * <p>
+     * schema language is {@code javax.xml.XMLConstants}.W3C_XML_SCHEMA_NS_URI
+     * </p>
      * 
      * @param source schema source.
      * @return Schema instance.
      */
     public static Schema getSchemaNoCache(final Object source) throws SAXException {
-        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source, Cache.NO_CACHE);
+        return getSchemaNoCache(XMLConstants.W3C_XML_SCHEMA_NS_URI, source);
     }
 
     /**
      * Get Schema instance.
+     * 
+     * <p>
+     * source's supported type is under. <br>
+     * {@code java.net.URL}<br>
+     * {@code java.net.File}<br>
+     * {@code java.net.Source}<br>
+     * {@code java.net.Source[]}<br>
+     * </p>
      * 
      * @param schemaLanguage schema language.
      * @param source schema source.
@@ -125,6 +154,13 @@ public class SchemaCache {
      * Get Schema instance.
      * <p>
      * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * <p>
+     * source's supported type is under. <br>
+     * {@code java.net.URL}<br>
+     * {@code java.net.File}<br>
+     * {@code java.net.Source}<br>
+     * {@code java.net.Source[]}<br>
      * </p>
      * 
      * @param schemaLanguage schema language.
@@ -152,6 +188,13 @@ public class SchemaCache {
         } catch (final NestedSAXException e) {
             throw e.causeSaxException;
         }
+    }
+
+    /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        cache.clear();
     }
 
     /**

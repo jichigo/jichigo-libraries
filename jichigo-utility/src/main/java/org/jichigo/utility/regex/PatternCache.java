@@ -75,4 +75,11 @@ public class PatternCache {
         return cache.get(Cache.NO_CACHE, regex);
     }
 
+    /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        cache.clear();
+    }
+
 }

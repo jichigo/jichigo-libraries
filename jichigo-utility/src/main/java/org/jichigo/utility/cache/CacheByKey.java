@@ -68,22 +68,29 @@ public abstract class CacheByKey<T> implements Cache<T> {
     }
 
     /**
+     * Clear cache.
+     */
+    public void clear() {
+        cache.clear();
+    }
+
+    /**
      * Generate cache key.
      * 
      * @param objects cache target objects.
      * @return cache key.
      */
     protected String generateCacheKey(final Object... objects) {
-        if (objects.length == 1) {
-            return objects[0].toString();
+        if (objects == null || objects.length == 0) {
+            return "";
+        } else if (objects.length == 1) {
+            return objects[0] == null ? "null" : objects[0].toString();
         } else {
             final StringBuilder cachekeySb = new StringBuilder();
             for (final Object object : objects) {
                 cachekeySb.append(object).append("_");
             }
-            if (0 < cachekeySb.length()) {
-                cachekeySb.deleteCharAt(cachekeySb.length() - 1);
-            }
+            cachekeySb.deleteCharAt(cachekeySb.length() - 1);
             return cachekeySb.toString();
         }
     }

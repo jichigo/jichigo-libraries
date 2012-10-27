@@ -60,6 +60,9 @@ public class JAXBContextCache {
      * @throws NestedJAXBException if class is invalid.
      */
     private static JAXBContext createJAXBContext(final Class<?> classeToBeBound) throws NestedJAXBException {
+        if (classeToBeBound == null) {
+            throw new IllegalArgumentException("classeToBeBound is null.");
+        }
         try {
             return JAXBContext.newInstance(classeToBeBound);
         } catch (final JAXBException e) {
@@ -106,6 +109,13 @@ public class JAXBContextCache {
         } catch (final NestedJAXBException e) {
             throw e.causeJAXBException;
         }
+    }
+
+    /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        cache.clear();
     }
 
     /**
