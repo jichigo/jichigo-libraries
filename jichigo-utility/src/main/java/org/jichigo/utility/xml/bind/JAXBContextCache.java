@@ -53,6 +53,13 @@ public class JAXBContextCache {
     };
 
     /**
+     * Constructor.
+     */
+    private JAXBContextCache() {
+        super();
+    }
+
+    /**
      * Create JAXBContext instance.
      * 
      * @param classToBeBound class to be bound.

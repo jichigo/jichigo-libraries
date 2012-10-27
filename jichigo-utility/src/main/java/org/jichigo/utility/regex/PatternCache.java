@@ -52,6 +52,13 @@ public class PatternCache {
     };
 
     /**
+     * Constructor.
+     */
+    private PatternCache() {
+        super();
+    }
+
+    /**
      * Get Pattern instance.
      * 
      * @param regex regex string.

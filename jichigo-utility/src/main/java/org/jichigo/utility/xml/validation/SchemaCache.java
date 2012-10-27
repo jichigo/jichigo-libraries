@@ -60,6 +60,13 @@ public class SchemaCache {
     };
 
     /**
+     * Constructor.
+     */
+    private SchemaCache() {
+        super();
+    }
+
+    /**
      * Create Schema instance.
      * 
      * @param schemaLanguage schema language.
