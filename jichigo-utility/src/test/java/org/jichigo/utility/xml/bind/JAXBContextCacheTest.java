@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.jichigo.utility.xml.bind.jAXBContextTest.bean.Model;
+import org.jichigo.utility.xml.bind.jAXBContextCacheTest.bean.Model;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
