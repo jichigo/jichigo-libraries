@@ -200,7 +200,7 @@ public class CacheByKeyTest {
         long passedTime = endTime - startTime;
 
         Assert.assertEquals(1, initValueCounter.get());
-        Assert.assertTrue(passedTime < 510);
+        Assert.assertTrue(passedTime < 550);
 
     }
 
