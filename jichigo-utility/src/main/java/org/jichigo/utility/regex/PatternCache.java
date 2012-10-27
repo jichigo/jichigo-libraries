@@ -58,7 +58,21 @@ public class PatternCache {
      * @return Pattern instance.
      */
     public static Pattern getPattern(final String regex) {
-        return cache.get(regex);
+        return cache.get(Cache.CACHE, regex);
+    }
+
+    /**
+     * Get Pattern instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param regex regex string.
+     * @param doCache true is cache.
+     * @return Pattern instance.
+     */
+    public static Pattern getPatternNoCache(final String regex) {
+        return cache.get(Cache.NO_CACHE, regex);
     }
 
 }

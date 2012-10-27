@@ -75,8 +75,34 @@ public class JAXBContextCache {
      * @throws JAXBException if class is invalid.
      */
     public static JAXBContext getJAXBContext(final Class<?> classToBeBound) throws JAXBException {
+        return getJAXBContext(classToBeBound, Cache.CACHE);
+    }
+
+    /**
+     * Get JAXBContext instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param classToBeBound class to be bound.
+     * @return JAXBContext instance.
+     * @throws JAXBException if class is invalid.
+     */
+    public static JAXBContext getJAXBContextNoCache(final Class<?> classToBeBound) throws JAXBException {
+        return getJAXBContext(classToBeBound, Cache.NO_CACHE);
+    }
+
+    /**
+     * Get JAXBContext instance.
+     * 
+     * @param classToBeBound class to be bound.
+     * @param doCache true is chace.
+     * @return JAXBContext instance.
+     * @throws JAXBException if class is invalid.
+     */
+    private static JAXBContext getJAXBContext(final Class<?> classToBeBound, boolean doCache) throws JAXBException {
         try {
-            return cache.get(classToBeBound);
+            return cache.get(doCache, classToBeBound);
         } catch (final NestedJAXBException e) {
             throw e.causeJAXBException;
         }

@@ -31,10 +31,20 @@ package org.jichigo.utility.cache;
 public interface Cache<T> {
 
     /**
+     * cache flag
+     */
+    boolean CACHE = true;
+
+    /**
+     * no cache flag
+     */
+    boolean NO_CACHE = false;
+
+    /**
      * Get instance.
      * 
      * @param args cache target objects.
      */
-    T get(Object... args);
+    T get(final boolean doCache, Object... args);
 
 }

@@ -87,6 +87,7 @@ public class DatePattern {
     private final Locale locale;
 
     /**
+     * Constructor.
      * 
      * @param pattern date pattern string.
      * @param locale locale.
@@ -103,7 +104,20 @@ public class DatePattern {
      * @return DatePattern instance of Default Locale.
      */
     public static DatePattern getPattern(final String pattern) {
-        return getPattern(pattern, Locale.getDefault());
+        return getPattern(pattern, Locale.getDefault(), Cache.CACHE);
+    }
+
+    /**
+     * Get DatePattern instance of Default Locale.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param pattern date pattern.
+     * @return DatePattern instance of Default Locale.
+     */
+    public static DatePattern getPatternNoCache(final String pattern) {
+        return getPattern(pattern, Locale.getDefault(), Cache.NO_CACHE);
     }
 
     /**
@@ -114,8 +128,33 @@ public class DatePattern {
      * @return DatePattern instance.
      */
     public static DatePattern getPattern(final String pattern, final Locale locale) {
-        return datePatternCache.get(pattern, locale);
+        return getPattern(pattern, locale, Cache.CACHE);
+    }
 
+    /**
+     * Get DatePattern instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param pattern date pattern.
+     * @param locale locale
+     * @return DatePattern instance.
+     */
+    public static DatePattern getPatternNoCache(final String pattern, final Locale locale) {
+        return getPattern(pattern, locale, Cache.NO_CACHE);
+    }
+
+    /**
+     * Get DatePattern instance.
+     * 
+     * @param pattern date pattern.
+     * @param locale locale
+     * @param doCache true is cache.
+     * @return DatePattern instance.
+     */
+    private static DatePattern getPattern(final String pattern, final Locale locale, final boolean doCache) {
+        return datePatternCache.get(doCache, pattern, locale);
     }
 
     /**

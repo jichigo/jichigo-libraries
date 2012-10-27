@@ -99,7 +99,20 @@ public class MessagePattern {
      * @return MessagePattern instance of Default Locale.
      */
     public static MessagePattern getPattern(final String pattern) {
-        return getPattern(pattern, Locale.getDefault());
+        return getPattern(pattern, Locale.getDefault(), Cache.CACHE);
+    }
+
+    /**
+     * Get MessagePattern instance of Default Locale.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param pattern message pattern.
+     * @return MessagePattern instance of Default Locale.
+     */
+    public static MessagePattern getPatternNoCache(final String pattern) {
+        return getPattern(pattern, Locale.getDefault(), Cache.NO_CACHE);
     }
 
     /**
@@ -110,8 +123,33 @@ public class MessagePattern {
      * @return MessagePattern instance.
      */
     public static MessagePattern getPattern(final String pattern, final Locale locale) {
-        return messagePatternCache.get(pattern, locale);
+        return getPattern(pattern, locale, Cache.CACHE);
+    }
 
+    /**
+     * Get MessagePattern instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param pattern message pattern.
+     * @param locale locale
+     * @return MessagePattern instance.
+     */
+    public static MessagePattern getPatternNoCache(final String pattern, final Locale locale) {
+        return getPattern(pattern, locale, Cache.NO_CACHE);
+    }
+
+    /**
+     * Get MessagePattern instance.
+     * 
+     * @param pattern message pattern.
+     * @param locale locale
+     * @param doCache true is cache.
+     * @return MessagePattern instance.
+     */
+    private static MessagePattern getPattern(final String pattern, final Locale locale, final boolean doCache) {
+        return messagePatternCache.get(doCache, pattern, locale);
     }
 
     /**

@@ -93,7 +93,20 @@ public class SchemaCache {
      * @return Schema instance.
      */
     public static Schema getSchema(final Object source) throws SAXException {
-        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source);
+        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source, Cache.CACHE);
+    }
+
+    /**
+     * Get Schema instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param source schema source.
+     * @return Schema instance.
+     */
+    public static Schema getSchemaNoCache(final Object source) throws SAXException {
+        return getSchema(XMLConstants.W3C_XML_SCHEMA_NS_URI, source, Cache.NO_CACHE);
     }
 
     /**
@@ -105,8 +118,37 @@ public class SchemaCache {
      * @throws SAXException if schema source is invalid.
      */
     public static Schema getSchema(final String schemaLanguage, final Object source) throws SAXException {
+        return getSchema(schemaLanguage, source, Cache.CACHE);
+    }
+
+    /**
+     * Get Schema instance.
+     * <p>
+     * if not exists in cache, only create instance. (no cache)
+     * </p>
+     * 
+     * @param schemaLanguage schema language.
+     * @param source schema source.
+     * @return Schema instance.
+     * @throws SAXException if schema source is invalid.
+     */
+    public static Schema getSchemaNoCache(final String schemaLanguage, final Object source) throws SAXException {
+        return getSchema(schemaLanguage, source, Cache.NO_CACHE);
+    }
+
+    /**
+     * Get Schema instance.
+     * 
+     * @param schemaLanguage schema language.
+     * @param source schema source.
+     * @param doCache true is cache.
+     * @return Schema instance.
+     * @throws SAXException if schema source is invalid.
+     */
+    private static Schema getSchema(final String schemaLanguage, final Object source, final boolean doCache)
+            throws SAXException {
         try {
-            return cache.get(schemaLanguage, source);
+            return cache.get(doCache, schemaLanguage, source);
         } catch (final NestedSAXException e) {
             throw e.causeSaxException;
         }

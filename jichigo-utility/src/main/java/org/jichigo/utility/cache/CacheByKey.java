@@ -48,16 +48,20 @@ public abstract class CacheByKey<T> implements Cache<T> {
      * @param objects cache target objects.
      * @return instance.
      */
-    public T get(final Object... objects) {
+    public T get(final boolean doCache, final Object... objects) {
         final String cachekey = generateCacheKey(objects);
         T instance = cache.get(cachekey);
         if (instance == null) {
-            synchronized (cachekey.intern()) {
-                instance = cache.get(cachekey);
-                if (instance == null) {
-                    instance = initialValue(objects);
-                    cache.put(cachekey, instance);
+            if (doCache) {
+                synchronized (cachekey.intern()) {
+                    instance = cache.get(cachekey);
+                    if (instance == null) {
+                        instance = initialValue(objects);
+                        cache.put(cachekey, instance);
+                    }
                 }
+            } else {
+                instance = initialValue(objects);
             }
         }
         return instance;
@@ -70,14 +74,18 @@ public abstract class CacheByKey<T> implements Cache<T> {
      * @return cache key.
      */
     protected String generateCacheKey(final Object... objects) {
-        final StringBuilder cachekeySb = new StringBuilder();
-        for (final Object object : objects) {
-            cachekeySb.append(object).append("_");
+        if (objects.length == 1) {
+            return objects[0].toString();
+        } else {
+            final StringBuilder cachekeySb = new StringBuilder();
+            for (final Object object : objects) {
+                cachekeySb.append(object).append("_");
+            }
+            if (0 < cachekeySb.length()) {
+                cachekeySb.deleteCharAt(cachekeySb.length() - 1);
+            }
+            return cachekeySb.toString();
         }
-        if (0 < cachekeySb.length()) {
-            cachekeySb.deleteCharAt(cachekeySb.length() - 1);
-        }
-        return cachekeySb.toString();
     }
 
     /**
