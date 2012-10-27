@@ -119,6 +119,13 @@ public class NumberPattern {
     }
 
     /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        numberPatternCache.clear();
+    }
+
+    /**
      * format number.
      * 
      * @param targetNumber target number.

@@ -158,6 +158,13 @@ public class DatePattern {
     }
 
     /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        datePatternCache.clear();
+    }
+
+    /**
      * format date.
      * 
      * @param targetDate target date.

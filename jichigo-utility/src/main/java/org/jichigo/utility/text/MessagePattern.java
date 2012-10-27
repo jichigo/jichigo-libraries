@@ -153,6 +153,13 @@ public class MessagePattern {
     }
 
     /**
+     * Clear cache.
+     */
+    public static void clearCache() {
+        messagePatternCache.clear();
+    }
+
+    /**
      * format message.
      * 
      * @param messageArgs message args.
