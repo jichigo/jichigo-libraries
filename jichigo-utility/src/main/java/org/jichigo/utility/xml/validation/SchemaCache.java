@@ -79,16 +79,18 @@ public class SchemaCache {
         try {
             if (File.class.isInstance(source)) {
                 return factory.newSchema(File.class.cast(source));
-            } else if (URL.class.isInstance(source)) {
-                return factory.newSchema(URL.class.cast(source));
-            } else if (Source.class.isInstance(source)) {
-                return factory.newSchema(Source.class.cast(source));
-            } else if (Source[].class.isInstance(source)) {
-                return factory.newSchema(Source[].class.cast(source));
-            } else {
-                final String className = (source == null) ? "null" : source.getClass().getName();
-                throw new IllegalArgumentException("source class is unsupported. class is " + className + ".");
             }
+            if (URL.class.isInstance(source)) {
+                return factory.newSchema(URL.class.cast(source));
+            }
+            if (Source.class.isInstance(source)) {
+                return factory.newSchema(Source.class.cast(source));
+            }
+            if (Source[].class.isInstance(source)) {
+                return factory.newSchema(Source[].class.cast(source));
+            }
+            final String className = (source == null) ? "null" : source.getClass().getName();
+            throw new IllegalArgumentException("source class is unsupported. class is " + className + ".");
         } catch (final SAXException e) {
             throw new NestedSAXException(e);
         }
