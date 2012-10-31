@@ -38,6 +38,53 @@ import java.util.concurrent.ConcurrentMap;
 public abstract class CacheByKey<T> implements Cache<T> {
 
     /**
+     * Keys enum.
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * @author Kazuki Shimizu
+     */
+    private static enum Keys {
+        /**
+         * Default Key.
+         */
+        DEFAULT(""),
+        /**
+         * Null Key.
+         */
+        NULL("null");
+
+        /**
+         * Key's Value.
+         */
+        private String value;
+
+        /**
+         * Constructor.
+         * 
+         * @param value Key's value.
+         */
+        private Keys(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Get value.
+         * 
+         * @return Key's Value.
+         */
+        public String value() {
+            return value;
+        }
+
+    }
+
+    /**
+     * Key Separator.
+     */
+    private static final String KEY_SEPARATOR = "_";
+
+    /**
      * instance cache.
      */
     private final ConcurrentMap<String, T> cache = new ConcurrentHashMap<String, T>();
@@ -82,16 +129,18 @@ public abstract class CacheByKey<T> implements Cache<T> {
      */
     protected String generateCacheKey(final Object... objects) {
         if (objects == null || objects.length == 0) {
-            return "";
+            return Keys.DEFAULT.value();
         } else if (objects.length == 1) {
-            return objects[0] == null ? "null" : objects[0].toString();
+            return objects[0] == null ? Keys.NULL.value() : objects[0].toString();
         } else {
-            final StringBuilder cachekeySb = new StringBuilder();
-            for (final Object object : objects) {
-                cachekeySb.append(object).append("_");
+            final StringBuilder cachekeyStrBuilder = new StringBuilder();
+            for (int index = 0; index < objects.length; index++) {
+                cachekeyStrBuilder.append(objects[index]);
+                if (index < (objects.length - 1)) {
+                    cachekeyStrBuilder.append(KEY_SEPARATOR);
+                }
             }
-            cachekeySb.deleteCharAt(cachekeySb.length() - 1);
-            return cachekeySb.toString();
+            return cachekeyStrBuilder.toString();
         }
     }
 
