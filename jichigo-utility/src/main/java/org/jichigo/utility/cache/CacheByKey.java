@@ -130,18 +130,18 @@ public abstract class CacheByKey<T> implements Cache<T> {
     protected String generateCacheKey(final Object... objects) {
         if (objects == null || objects.length == 0) {
             return Keys.DEFAULT.value();
-        } else if (objects.length == 1) {
-            return objects[0] == null ? Keys.NULL.value() : objects[0].toString();
-        } else {
-            final StringBuilder cachekeyStrBuilder = new StringBuilder();
-            for (int index = 0; index < objects.length; index++) {
-                cachekeyStrBuilder.append(objects[index]);
-                if (index < (objects.length - 1)) {
-                    cachekeyStrBuilder.append(KEY_SEPARATOR);
-                }
-            }
-            return cachekeyStrBuilder.toString();
         }
+        if (objects.length == 1) {
+            return objects[0] == null ? Keys.NULL.value() : objects[0].toString();
+        }
+        final StringBuilder cachekeyStrBuilder = new StringBuilder();
+        for (int index = 0; index < objects.length; index++) {
+            cachekeyStrBuilder.append(objects[index]);
+            if (index < (objects.length - 1)) {
+                cachekeyStrBuilder.append(KEY_SEPARATOR);
+            }
+        }
+        return cachekeyStrBuilder.toString();
     }
 
     /**
