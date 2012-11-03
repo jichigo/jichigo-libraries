@@ -56,44 +56,6 @@ public class JAXBContextCacheTest {
     }
 
     @Test
-    public void getJAXBContextNoCache_not_exists_cache() throws JAXBException {
-
-        JAXBContext context1 = JAXBContextCache.getJAXBContextNoCache(Model.class);
-        JAXBContext context2 = JAXBContextCache.getJAXBContextNoCache(Model.class);
-
-        Assert.assertNotSame(context1, context2);
-    }
-
-    @Test
-    public void getJAXBContextNoCache_exists_cache() throws JAXBException {
-
-        JAXBContext context1 = JAXBContextCache.getJAXBContext(Model.class);
-        JAXBContext context2 = JAXBContextCache.getJAXBContextNoCache(Model.class);
-
-        Assert.assertSame(context1, context2);
-    }
-
-    @Test
-    public void getJAXBContextNoCache_JAXBContextException() {
-        try {
-            JAXBContextCache.getJAXBContextNoCache(Map.class);
-            Assert.fail("not occur JAXBException");
-        } catch (JAXBException e) {
-            Assert.assertNotNull(e);
-        }
-    }
-
-    @Test
-    public void getJAXBContextNoCache_null() throws JAXBException {
-        try {
-            JAXBContextCache.getJAXBContextNoCache(null);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("classeToBeBound is null.", e.getMessage());
-            Assert.assertNull(e.getCause());
-        }
-    }
-
-    @Test
     public void clearCache() throws JAXBException {
 
         JAXBContext context1 = JAXBContextCache.getJAXBContext(Model.class);

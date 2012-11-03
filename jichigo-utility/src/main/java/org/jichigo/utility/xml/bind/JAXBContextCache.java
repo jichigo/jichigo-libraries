@@ -24,8 +24,8 @@ package org.jichigo.utility.xml.bind;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.LazyCache;
 
 /**
  * JAXBContext cache class.
@@ -39,7 +39,7 @@ public class JAXBContextCache {
     /**
      * instance cache.
      */
-    private static final Cache<JAXBContext> cache = new CacheByKey<JAXBContext>() {
+    private static final LazyCache<JAXBContext> cache = new CacheByKey<JAXBContext>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -85,34 +85,8 @@ public class JAXBContextCache {
      * @throws JAXBException if class is invalid.
      */
     public static JAXBContext getJAXBContext(final Class<?> classToBeBound) throws JAXBException {
-        return getJAXBContext(classToBeBound, Cache.CACHE);
-    }
-
-    /**
-     * Get JAXBContext instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param classToBeBound class to be bound.
-     * @return JAXBContext instance.
-     * @throws JAXBException if class is invalid.
-     */
-    public static JAXBContext getJAXBContextNoCache(final Class<?> classToBeBound) throws JAXBException {
-        return getJAXBContext(classToBeBound, Cache.NO_CACHE);
-    }
-
-    /**
-     * Get JAXBContext instance.
-     * 
-     * @param classToBeBound class to be bound.
-     * @param doCache true is chace.
-     * @return JAXBContext instance.
-     * @throws JAXBException if class is invalid.
-     */
-    private static JAXBContext getJAXBContext(final Class<?> classToBeBound, boolean doCache) throws JAXBException {
         try {
-            return cache.get(doCache, classToBeBound);
+            return cache.getOrCreate(classToBeBound);
         } catch (final NestedJAXBException e) {
             throw e.causeJAXBException;
         }

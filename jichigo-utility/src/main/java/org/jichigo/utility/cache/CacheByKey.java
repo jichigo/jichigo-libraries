@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public abstract class CacheByKey<T> implements Cache<T> {
+public abstract class CacheByKey<T> implements LazyCache<T> {
 
     /**
      * Keys enum.
@@ -90,25 +90,47 @@ public abstract class CacheByKey<T> implements Cache<T> {
     private final ConcurrentMap<String, T> cache = new ConcurrentHashMap<String, T>();
 
     /**
+     * Put instance.
+     * 
+     * @param objects cache target objects.
+     * @return old cache instance.
+     */
+    public T create(final Object... objects) {
+        final String cachekey = generateCacheKey(objects);
+        return cache.put(cachekey, initialValue(objects));
+    }
+
+    /**
      * Get instance.
      * 
      * @param objects cache target objects.
      * @return instance.
      */
-    public T get(final boolean doCache, final Object... objects) {
+    public T get(final Object... objects) {
         final String cachekey = generateCacheKey(objects);
         T instance = cache.get(cachekey);
         if (instance == null) {
-            if (doCache) {
-                synchronized (cachekey.intern()) {
-                    instance = cache.get(cachekey);
-                    if (instance == null) {
-                        instance = initialValue(objects);
-                        cache.put(cachekey, instance);
-                    }
+            instance = initialValue(objects);
+        }
+        return instance;
+    }
+
+    /**
+     * Get instance.
+     * 
+     * @param objects cache target objects.
+     * @return instance.
+     */
+    public T getOrCreate(final Object... objects) {
+        final String cachekey = generateCacheKey(objects);
+        T instance = cache.get(cachekey);
+        if (instance == null) {
+            synchronized (cachekey.intern()) {
+                instance = cache.get(cachekey);
+                if (instance == null) {
+                    instance = initialValue(objects);
+                    cache.put(cachekey, instance);
                 }
-            } else {
-                instance = initialValue(objects);
             }
         }
         return instance;

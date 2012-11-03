@@ -22,31 +22,23 @@
 package org.jichigo.utility.cache;
 
 /**
- * Cache interface.
+ * Lazy Cache interface.
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author created by Kazuki Shimizu
  */
-public interface Cache<T> {
+public interface LazyCache<T> extends Cache<T> {
 
     /**
-     * Get instance.
+     * Get or Create instance.
+     * <p>
+     * if not exists in cache, create new instance and cache.
+     * </p>
      * 
      * @param args cache target objects.
+     * @return cached instance.
      */
-    T get(Object... args);
-
-    /**
-     * Create instance.
-     * 
-     * @param args cache target objects.
-     */
-    T create(Object... args);
-
-    /**
-     * Clear cache.
-     */
-    void clear();
+    T getOrCreate(Object... args);
 
 }

@@ -24,8 +24,8 @@ package org.jichigo.utility.text;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.LazyCache;
 
 /**
  * Message Pattern class.
@@ -42,7 +42,7 @@ public class MessagePattern {
     /**
      * instance cache.
      */
-    private static final Cache<MessagePattern> messagePatternCache = new CacheByKey<MessagePattern>() {
+    private static final LazyCache<MessagePattern> messagePatternCache = new CacheByKey<MessagePattern>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -99,20 +99,7 @@ public class MessagePattern {
      * @return MessagePattern instance of Default Locale.
      */
     public static MessagePattern getPattern(final String pattern) {
-        return getPattern(pattern, Locale.getDefault(), Cache.CACHE);
-    }
-
-    /**
-     * Get MessagePattern instance of Default Locale.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param pattern message pattern.
-     * @return MessagePattern instance of Default Locale.
-     */
-    public static MessagePattern getPatternNoCache(final String pattern) {
-        return getPattern(pattern, Locale.getDefault(), Cache.NO_CACHE);
+        return getPattern(pattern, Locale.getDefault());
     }
 
     /**
@@ -123,33 +110,7 @@ public class MessagePattern {
      * @return MessagePattern instance.
      */
     public static MessagePattern getPattern(final String pattern, final Locale locale) {
-        return getPattern(pattern, locale, Cache.CACHE);
-    }
-
-    /**
-     * Get MessagePattern instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param pattern message pattern.
-     * @param locale locale
-     * @return MessagePattern instance.
-     */
-    public static MessagePattern getPatternNoCache(final String pattern, final Locale locale) {
-        return getPattern(pattern, locale, Cache.NO_CACHE);
-    }
-
-    /**
-     * Get MessagePattern instance.
-     * 
-     * @param pattern message pattern.
-     * @param locale locale
-     * @param doCache true is cache.
-     * @return MessagePattern instance.
-     */
-    private static MessagePattern getPattern(final String pattern, final Locale locale, final boolean doCache) {
-        return messagePatternCache.get(doCache, pattern, locale);
+        return messagePatternCache.getOrCreate(pattern, locale);
     }
 
     /**

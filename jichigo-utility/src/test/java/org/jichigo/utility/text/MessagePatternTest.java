@@ -37,40 +37,6 @@ public class MessagePatternTest {
     }
 
     @Test
-    public void getPatternNoCache_defaultLocale_not_exists_cache() {
-        MessagePattern pattern1 = MessagePattern.getPatternNoCache("{0} {1,number} {1,date,yyyyMMdd( E )}");
-        MessagePattern pattern2 = MessagePattern.getPatternNoCache("{0} {1,number} {1,date,yyyyMMdd( E )}");
-
-        Assert.assertNotSame(pattern1, pattern2);
-        Assert.assertEquals("string 1,234 19700101( –Ø )", pattern2.format("string", 1234, new Date(0)));
-    }
-
-    @Test
-    public void getPatternNoCache_defaultLocale_exists_cache() {
-        MessagePattern pattern1 = MessagePattern.getPattern("yyyyMMdd");
-        MessagePattern pattern2 = MessagePattern.getPatternNoCache("yyyyMMdd");
-
-        Assert.assertSame(pattern1, pattern2);
-    }
-
-    @Test
-    public void getPatternNoCache_locale_not_exists_cache() {
-        MessagePattern pattern1 = MessagePattern.getPatternNoCache("{0} {1,number} {1,date,yyyyMMdd( E )}", Locale.US);
-        MessagePattern pattern2 = MessagePattern.getPatternNoCache("{0} {1,number} {1,date,yyyyMMdd( E )}", Locale.US);
-
-        Assert.assertNotSame(pattern1, pattern2);
-        Assert.assertEquals("string 1,234 19700101( Thu )", pattern2.format("string", 1234, new Date(0)));
-    }
-
-    @Test
-    public void getPatternNoCache_locale_exists_cache() {
-        MessagePattern pattern1 = MessagePattern.getPattern("{0} {1,number} {1,date,yyyyMMdd(E)}", Locale.US);
-        MessagePattern pattern2 = MessagePattern.getPatternNoCache("{0} {1,number} {1,date,yyyyMMdd(E)}", Locale.US);
-
-        Assert.assertSame(pattern1, pattern2);
-    }
-
-    @Test
     public void format_single_thread() {
         MessagePattern pattern = MessagePattern.getPattern("{0},{1,number,currency},{2,date,medium},{3,time,medium}");
         String actualFormattedValue = pattern.format("string", 1234, new Date(0), new Date(0));

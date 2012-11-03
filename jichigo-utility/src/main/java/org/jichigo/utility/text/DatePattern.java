@@ -27,8 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.LazyCache;
 
 /**
  * Date Pattern class.
@@ -45,7 +45,7 @@ public class DatePattern {
     /**
      * instance cache.
      */
-    private static final Cache<DatePattern> datePatternCache = new CacheByKey<DatePattern>() {
+    private static final LazyCache<DatePattern> datePatternCache = new CacheByKey<DatePattern>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -104,20 +104,7 @@ public class DatePattern {
      * @return DatePattern instance of Default Locale.
      */
     public static DatePattern getPattern(final String pattern) {
-        return getPattern(pattern, Locale.getDefault(), Cache.CACHE);
-    }
-
-    /**
-     * Get DatePattern instance of Default Locale.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param pattern date pattern.
-     * @return DatePattern instance of Default Locale.
-     */
-    public static DatePattern getPatternNoCache(final String pattern) {
-        return getPattern(pattern, Locale.getDefault(), Cache.NO_CACHE);
+        return getPattern(pattern, Locale.getDefault());
     }
 
     /**
@@ -128,33 +115,7 @@ public class DatePattern {
      * @return DatePattern instance.
      */
     public static DatePattern getPattern(final String pattern, final Locale locale) {
-        return getPattern(pattern, locale, Cache.CACHE);
-    }
-
-    /**
-     * Get DatePattern instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param pattern date pattern.
-     * @param locale locale
-     * @return DatePattern instance.
-     */
-    public static DatePattern getPatternNoCache(final String pattern, final Locale locale) {
-        return getPattern(pattern, locale, Cache.NO_CACHE);
-    }
-
-    /**
-     * Get DatePattern instance.
-     * 
-     * @param pattern date pattern.
-     * @param locale locale
-     * @param doCache true is cache.
-     * @return DatePattern instance.
-     */
-    private static DatePattern getPattern(final String pattern, final Locale locale, final boolean doCache) {
-        return datePatternCache.get(doCache, pattern, locale);
+        return datePatternCache.getOrCreate(pattern, locale);
     }
 
     /**

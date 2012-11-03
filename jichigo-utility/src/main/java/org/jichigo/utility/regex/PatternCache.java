@@ -23,7 +23,7 @@ package org.jichigo.utility.regex;
 
 import java.util.regex.Pattern;
 
-import org.jichigo.utility.cache.Cache;
+import org.jichigo.utility.cache.LazyCache;
 import org.jichigo.utility.cache.CacheByKey;
 
 /**
@@ -38,7 +38,7 @@ public class PatternCache {
     /**
      * instance cache.
      */
-    private static final Cache<Pattern> cache = new CacheByKey<Pattern>() {
+    private static final LazyCache<Pattern> cache = new CacheByKey<Pattern>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -65,7 +65,7 @@ public class PatternCache {
      * @return Pattern instance.
      */
     public static Pattern getPattern(final String regex) {
-        return cache.get(Cache.CACHE, regex);
+        return cache.getOrCreate(regex);
     }
 
     /**
@@ -79,7 +79,11 @@ public class PatternCache {
      * @return Pattern instance.
      */
     public static Pattern getPatternNoCache(final String regex) {
-        return cache.get(Cache.NO_CACHE, regex);
+        Pattern pattern = cache.get(regex);
+        if (pattern == null) {
+            pattern = Pattern.compile(regex);
+        }
+        return pattern;
     }
 
     /**

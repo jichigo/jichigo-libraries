@@ -38,40 +38,6 @@ public class DatePatternTest {
     }
 
     @Test
-    public void getPatternNoCache_defaultLocale_not_exists_cache() {
-        DatePattern pattern1 = DatePattern.getPatternNoCache("yyyyMMdd ( E )");
-        DatePattern pattern2 = DatePattern.getPatternNoCache("yyyyMMdd ( E )");
-
-        Assert.assertNotSame(pattern1, pattern2);
-        Assert.assertEquals("19700101 ( –Ø )", pattern2.format(new Date(0)));
-    }
-
-    @Test
-    public void getPatternNoCache_defaultLocale_exists_cache() {
-        DatePattern pattern1 = DatePattern.getPattern("yyyyMMdd");
-        DatePattern pattern2 = DatePattern.getPatternNoCache("yyyyMMdd");
-
-        Assert.assertSame(pattern1, pattern2);
-    }
-
-    @Test
-    public void getPatternNoCache_locale_not_exists_cache() {
-        DatePattern pattern1 = DatePattern.getPatternNoCache("yyyyMMdd ( E )", Locale.US);
-        DatePattern pattern2 = DatePattern.getPatternNoCache("yyyyMMdd ( E )", Locale.US);
-
-        Assert.assertNotSame(pattern1, pattern2);
-        Assert.assertEquals("19700101 ( Thu )", pattern2.format(new Date(0)));
-    }
-
-    @Test
-    public void getPatternNoCache_locale_exists_cache() {
-        DatePattern pattern1 = DatePattern.getPattern("yyyyMMdd", Locale.US);
-        DatePattern pattern2 = DatePattern.getPatternNoCache("yyyyMMdd", Locale.US);
-
-        Assert.assertSame(pattern1, pattern2);
-    }
-
-    @Test
     public void format_single_thread() {
         DatePattern pattern = DatePattern.getPattern("yyyyMMdd");
         Date targetDate = new Date(0);

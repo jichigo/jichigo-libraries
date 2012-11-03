@@ -111,28 +111,6 @@ public class SchemaCacheTest {
     }
 
     @Test
-    public void getSchemaNoCache_not_exist_cache() throws SAXException {
-        URL sourceUrl1 = Thread.currentThread().getContextClassLoader()
-                .getResource(getTestcaseResourcePath("test_normal.xsd"));
-        URL sourceUrl2 = Thread.currentThread().getContextClassLoader()
-                .getResource(getTestcaseResourcePath("test_normal.xsd"));
-        Schema schema1 = SchemaCache.getSchemaNoCache(sourceUrl1);
-        Schema schema2 = SchemaCache.getSchemaNoCache(sourceUrl2);
-        Assert.assertNotSame(schema1, schema2);
-    }
-
-    @Test
-    public void getSchemaNoCache_exist_cache() throws SAXException {
-        URL sourceUrl1 = Thread.currentThread().getContextClassLoader()
-                .getResource(getTestcaseResourcePath("test_normal.xsd"));
-        URL sourceUrl2 = Thread.currentThread().getContextClassLoader()
-                .getResource(getTestcaseResourcePath("test_normal.xsd"));
-        Schema schema1 = SchemaCache.getSchema(sourceUrl1);
-        Schema schema2 = SchemaCache.getSchemaNoCache(sourceUrl2);
-        Assert.assertSame(schema1, schema2);
-    }
-
-    @Test
     public void clearCache() throws SAXException {
 
         URL sourceUrl = Thread.currentThread().getContextClassLoader()

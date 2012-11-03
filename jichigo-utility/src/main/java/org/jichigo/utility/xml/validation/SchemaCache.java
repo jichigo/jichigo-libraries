@@ -29,8 +29,8 @@ import javax.xml.transform.Source;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.LazyCache;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,7 +45,7 @@ public class SchemaCache {
     /**
      * instance cache.
      */
-    private static final Cache<Schema> cache = new CacheByKey<Schema>() {
+    private static final LazyCache<Schema> cache = new CacheByKey<Schema>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -118,29 +118,6 @@ public class SchemaCache {
 
     /**
      * Get Schema instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * <p>
-     * source's supported type is under. <br>
-     * {@code java.net.URL}<br>
-     * {@code java.net.File}<br>
-     * {@code java.net.Source}<br>
-     * {@code java.net.Source[]}<br>
-     * </p>
-     * <p>
-     * schema language is {@code javax.xml.XMLConstants}.W3C_XML_SCHEMA_NS_URI
-     * </p>
-     * 
-     * @param source schema source.
-     * @return Schema instance.
-     */
-    public static Schema getSchemaNoCache(final Object source) throws SAXException {
-        return getSchemaNoCache(XMLConstants.W3C_XML_SCHEMA_NS_URI, source);
-    }
-
-    /**
-     * Get Schema instance.
      * 
      * <p>
      * source's supported type is under. <br>
@@ -156,44 +133,8 @@ public class SchemaCache {
      * @throws SAXException if schema source is invalid.
      */
     public static Schema getSchema(final String schemaLanguage, final Object source) throws SAXException {
-        return getSchema(schemaLanguage, source, Cache.CACHE);
-    }
-
-    /**
-     * Get Schema instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * <p>
-     * source's supported type is under. <br>
-     * {@code java.net.URL}<br>
-     * {@code java.net.File}<br>
-     * {@code java.net.Source}<br>
-     * {@code java.net.Source[]}<br>
-     * </p>
-     * 
-     * @param schemaLanguage schema language.
-     * @param source schema source.
-     * @return Schema instance.
-     * @throws SAXException if schema source is invalid.
-     */
-    public static Schema getSchemaNoCache(final String schemaLanguage, final Object source) throws SAXException {
-        return getSchema(schemaLanguage, source, Cache.NO_CACHE);
-    }
-
-    /**
-     * Get Schema instance.
-     * 
-     * @param schemaLanguage schema language.
-     * @param source schema source.
-     * @param doCache true is cache.
-     * @return Schema instance.
-     * @throws SAXException if schema source is invalid.
-     */
-    private static Schema getSchema(final String schemaLanguage, final Object source, final boolean doCache)
-            throws SAXException {
         try {
-            return cache.get(doCache, schemaLanguage, source);
+            return cache.getOrCreate(schemaLanguage, source);
         } catch (final NestedSAXException e) {
             throw e.causeSaxException;
         }

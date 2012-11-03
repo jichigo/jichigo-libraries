@@ -24,8 +24,8 @@ package org.jichigo.utility.text;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-import org.jichigo.utility.cache.Cache;
 import org.jichigo.utility.cache.CacheByKey;
+import org.jichigo.utility.cache.LazyCache;
 
 /**
  * Number Pattern class.
@@ -42,7 +42,7 @@ public class NumberPattern {
     /**
      * instance cache.
      */
-    private static final Cache<NumberPattern> numberPatternCache = new CacheByKey<NumberPattern>() {
+    private static final LazyCache<NumberPattern> numberPatternCache = new CacheByKey<NumberPattern>() {
         /*
          * (”ñ Javadoc)
          * 
@@ -91,31 +91,7 @@ public class NumberPattern {
      * @return DecimalPattern instance.
      */
     public static NumberPattern getPattern(final String pattern) {
-        return getPattern(pattern, Cache.CACHE);
-    }
-
-    /**
-     * Get NumberPattern instance.
-     * <p>
-     * if not exists in cache, only create instance. (no cache)
-     * </p>
-     * 
-     * @param pattern decimal pattern.
-     * @return DecimalPattern instance.
-     */
-    public static NumberPattern getPatternNoCache(final String pattern) {
-        return getPattern(pattern, Cache.NO_CACHE);
-    }
-
-    /**
-     * Get NumberPattern instance.
-     * 
-     * @param pattern decimal pattern.
-     * @param doCache true is cache.
-     * @return DecimalPattern instance.
-     */
-    private static NumberPattern getPattern(final String pattern, final boolean doCache) {
-        return numberPatternCache.get(doCache, pattern);
+        return numberPatternCache.getOrCreate(pattern);
     }
 
     /**

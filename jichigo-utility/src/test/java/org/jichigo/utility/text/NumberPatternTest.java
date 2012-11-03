@@ -27,23 +27,6 @@ public class NumberPatternTest {
     }
 
     @Test
-    public void getPatternNoCache_not_exists_cache() {
-        NumberPattern pattern1 = NumberPattern.getPatternNoCache("00000");
-        NumberPattern pattern2 = NumberPattern.getPatternNoCache("00000");
-
-        Assert.assertNotSame(pattern1, pattern2);
-        Assert.assertEquals("00123", pattern2.format(123));
-    }
-
-    @Test
-    public void getPatternNoCache_defaultLocale_exists_cache() {
-        NumberPattern pattern1 = NumberPattern.getPattern("###%");
-        NumberPattern pattern2 = NumberPattern.getPatternNoCache("###%");
-
-        Assert.assertSame(pattern1, pattern2);
-    }
-
-    @Test
     public void format_single_thread() {
         NumberPattern pattern = NumberPattern.getPattern("###%");
         String actualFormattedValue = pattern.format(0.99D);
