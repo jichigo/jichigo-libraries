@@ -45,7 +45,7 @@ public class ExceptionLogger {
      * @version 1.0.0
      * @author Kazuki Shimizu
      */
-    public enum Level {
+    public static enum Level {
         /**
          * level of warn.
          */
