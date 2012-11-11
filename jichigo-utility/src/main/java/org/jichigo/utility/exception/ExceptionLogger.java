@@ -265,6 +265,10 @@ public class ExceptionLogger {
      * @return level.
      */
     protected Level decideLevel(final Exception e) {
+        // check exists custom setting.
+        if (customLevelMap.isEmpty()) {
+            return defaultLevel;
+        }
         // decide code.
         final String code = decideCode(e);
         // find level in cache.
@@ -308,6 +312,10 @@ public class ExceptionLogger {
      * @return code.
      */
     protected String decideCode(final Exception e) {
+        // check exists custom setting.
+        if (customCodeMap.isEmpty()) {
+            return defaultCode;
+        }
         // get code.
         if (e instanceof ExceptionWithCode) {
             return ((ExceptionWithCode) e).getCode();
