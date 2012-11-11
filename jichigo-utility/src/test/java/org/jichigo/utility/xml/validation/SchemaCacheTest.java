@@ -102,7 +102,7 @@ public class SchemaCacheTest {
     public void getSchema_SAXException() {
         try {
             URL sourceUrl = Thread.currentThread().getContextClassLoader()
-                    .getResource(getTestcaseResourcePath("test_error.xsd"));
+                    .getResource(getTestcaseResourcePath("test_error.txt"));
             SchemaCache.getSchema(sourceUrl);
             Assert.fail("not occur SAXException");
         } catch (SAXException e) {
