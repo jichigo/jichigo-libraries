@@ -85,6 +85,7 @@ public class ExceptionLoggingInterceptor extends HandlerInterceptorAdapter {
             for (final Object arg : proceedingJoinPoint.getArgs()) {
                 if (arg instanceof Exception) {
                     exceptionLogger.log((Exception) arg);
+                    break;
                 }
             }
         } catch (final Exception e) {
