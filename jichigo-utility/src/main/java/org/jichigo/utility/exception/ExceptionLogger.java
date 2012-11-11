@@ -40,52 +40,9 @@ import org.slf4j.LoggerFactory;
 public class ExceptionLogger {
 
     /**
-     * Initial capacity of LRU cache.
-     */
-    private static final int CACHE_INITIAL_CAPACITY = 16;
-
-    /**
-     * load factor of LRU cache.
-     */
-    private static final float CACHE_LOAD_FACTOR = 0.75f;
-
-    /**
      * Max capacity of LRU cache.
      */
-    private static final int CACHE_MAX_CAPACITY = 1024;
-
-    /**
-     * Level enum.
-     * 
-     * @since 1.0.0
-     * @version 1.0.0
-     * @author Kazuki Shimizu
-     */
-    public static enum Level {
-        /**
-         * level of warn.
-         */
-        warn,
-        /**
-         * level of error.
-         */
-        error;
-
-        /**
-         * Is enable level.
-         * 
-         * @return if enable, return true.
-         */
-        boolean isEnabled() {
-            if (this == Level.warn) {
-                return applicationLogger.isWarnEnabled() || monitoringLogger.isWarnEnabled();
-            }
-            if (this == Level.error) {
-                return applicationLogger.isErrorEnabled() || monitoringLogger.isErrorEnabled();
-            }
-            throw new IllegalStateException("unsupported level. level is [" + this + "]");
-        }
-    }
+    private static final int LUR_CACHE_MAX_CAPACITY = 1024;
 
     /**
      * Application logger.
@@ -113,15 +70,7 @@ public class ExceptionLogger {
      * </p>
      */
     private final Map<Class<? extends Exception>, String> codeMappingCache = Collections
-            .synchronizedMap(new LinkedHashMap<Class<? extends Exception>, String>(CACHE_INITIAL_CAPACITY,
-                    CACHE_LOAD_FACTOR, true) {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<Class<? extends Exception>, String> eldest) {
-                    return size() > CACHE_MAX_CAPACITY;
-                }
-            });
+            .synchronizedMap(new LRUCache<Class<? extends Exception>, String>(LUR_CACHE_MAX_CAPACITY));
 
     /**
      * LRU Cache of level mapping.
@@ -130,15 +79,8 @@ public class ExceptionLogger {
      * value : apply level.
      * </p>
      */
-    private final Map<String, Level> levelMappingCache = Collections.synchronizedMap(new LinkedHashMap<String, Level>(
-            CACHE_INITIAL_CAPACITY, CACHE_LOAD_FACTOR, true) {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<String, Level> eldest) {
-            return size() > CACHE_MAX_CAPACITY;
-        }
-    });
+    private final Map<String, Level> levelMappingCache = Collections.synchronizedMap(new LRUCache<String, Level>(
+            LUR_CACHE_MAX_CAPACITY));
 
     /**
      * Custom code mapping.
@@ -422,6 +364,93 @@ public class ExceptionLogger {
      */
     protected String formatMessage(final String code, final String exceptionMessage) {
         return new StringBuffer().append("[").append(code).append("] ").append(exceptionMessage).toString();
+    }
+
+    /**
+     * Level enum.
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * @author Kazuki Shimizu
+     */
+    public enum Level {
+        /**
+         * level of warn.
+         */
+        warn,
+        /**
+         * level of error.
+         */
+        error;
+
+        /**
+         * Is enable level.
+         * 
+         * @return if enable, return true.
+         */
+        boolean isEnabled() {
+            if (this == Level.warn) {
+                return applicationLogger.isWarnEnabled() || monitoringLogger.isWarnEnabled();
+            }
+            if (this == Level.error) {
+                return applicationLogger.isErrorEnabled() || monitoringLogger.isErrorEnabled();
+            }
+            throw new IllegalStateException("unsupported level. level is [" + this + "]");
+        }
+    }
+
+    /**
+     * LRU cache class.
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * @author Kazuki Shimizu
+     * 
+     * @param <K> key type.
+     * @param <V> value type.
+     */
+    private class LRUCache<K, V> extends LinkedHashMap<K, V> {
+
+        /**
+         * serialVersionUID.
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Initial capacity of LRU cache.
+         */
+        private static final int CACHE_INITIAL_CAPACITY = 16;
+
+        /**
+         * load factor of LRU cache.
+         */
+        private static final float CACHE_LOAD_FACTOR = 0.75f;
+
+        /**
+         * Max capacity.
+         */
+        private int maxCapacity;
+
+        /**
+         * Constructor.
+         */
+        private LRUCache(final int maxCapacity) {
+            super(CACHE_INITIAL_CAPACITY, CACHE_LOAD_FACTOR, true);
+            this.maxCapacity = maxCapacity;
+        }
+
+        /**
+         * Is remove eldest entry ?
+         * 
+         * @param eldest The least recently inserted entry in the map, or if this is an access-ordered map, the least
+         *        recently accessed entry.
+         * @return if size is over maxCapacity, return true.
+         */
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > maxCapacity;
+        }
+
     }
 
 }
