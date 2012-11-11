@@ -40,17 +40,17 @@ import org.slf4j.LoggerFactory;
 public class ExceptionLogger {
 
     /**
-     * Initial capacity of cache.
+     * Initial capacity of LRU cache.
      */
     private static final int CACHE_INITIAL_CAPACITY = 16;
 
     /**
-     * load factor of cache.
+     * load factor of LRU cache.
      */
     private static final float CACHE_LOAD_FACTOR = 0.75f;
 
     /**
-     * Max capacity of cache.
+     * Max capacity of LRU cache.
      */
     private static final int CACHE_MAX_CAPACITY = 1024;
 
