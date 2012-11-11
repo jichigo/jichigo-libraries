@@ -11,31 +11,38 @@ import org.junit.Test;
 
 public class ExceptionLoggerTest {
 
+    private ExceptionLogger testTarget;
+
     @Before
     public void setup() {
-    }
-
-    @Test
-    public void warn01() throws JAXBException {
-
         LinkedHashMap<String, String> customCodeMap = new LinkedHashMap<String, String>();
         customCodeMap.put("NullPointerException", "e.cm.888");
+        customCodeMap.put("ArrayIndexOutOfBoundsException", "i.cm.666");
         customCodeMap.put("RuntimeException", "w.cm.777");
 
         LinkedHashMap<String, Level> customLevelMap = new LinkedHashMap<String, Level>();
         customLevelMap.put("e.", Level.error);
         customLevelMap.put("w.", Level.warn);
+        customLevelMap.put("i.", Level.info);
 
-        ExceptionLogger logger = new ExceptionLogger();
-        logger.setDefaultCode("e.cm.999");
-        logger.setDefaultLevel(Level.error);
-        logger.setCustomCodeMap(customCodeMap);
-        logger.setCustomLevelMap(customLevelMap);
+        testTarget = new ExceptionLogger();
+        testTarget.setDefaultCode("e.cm.999");
+        testTarget.setDefaultLevel(Level.error);
+        testTarget.setCustomCodeMap(customCodeMap);
+        testTarget.setCustomLevelMap(customLevelMap);
+    }
 
-        logger.log(new NullPointerException("1"));
-        logger.log(new IllegalArgumentException("2"));
+    @Test
+    public void warn01() throws JAXBException {
 
-        logger.log(new FileNotFoundException("3"));
+        testTarget.log(new NullPointerException("1"));
+        testTarget.log(new IllegalArgumentException("2"));
+        testTarget.log(new FileNotFoundException("3"));
+        testTarget.log(new ArrayIndexOutOfBoundsException("4"));
+
+        testTarget.warn(new ArrayIndexOutOfBoundsException("5"));
+        testTarget.error(new IllegalArgumentException("6"));
+        testTarget.info(new NullPointerException("7"));
 
     }
 

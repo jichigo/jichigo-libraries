@@ -179,7 +179,29 @@ public class ExceptionLogger {
      * @param e exception.
      */
     public void log(final String message, final Exception e) {
-        log(message, e, decideLevel(e));
+        log(makeMessage(message, e), e, decideLevel(e));
+    }
+
+    /**
+     * Output info log.
+     * 
+     * @param e exception.
+     */
+    public void info(final Exception e) {
+        if (!Level.info.isEnabled()) {
+            return;
+        }
+        info(e.getMessage(), e);
+    }
+
+    /**
+     * Output info log.
+     * 
+     * @param message message.
+     * @param e exception.
+     */
+    public void info(final String message, final Exception e) {
+        log(makeMessage(message, e), e, Level.info);
     }
 
     /**
@@ -191,7 +213,7 @@ public class ExceptionLogger {
         if (!Level.warn.isEnabled()) {
             return;
         }
-        warn(makeMessage(e), e);
+        warn(e.getMessage(), e);
     }
 
     /**
@@ -201,7 +223,7 @@ public class ExceptionLogger {
      * @param e exception.
      */
     public void warn(final String message, final Exception e) {
-        log(message, e, Level.warn);
+        log(makeMessage(message, e), e, Level.warn);
     }
 
     /**
@@ -213,7 +235,7 @@ public class ExceptionLogger {
         if (!Level.error.isEnabled()) {
             return;
         }
-        error(makeMessage(e), e);
+        error(e.getMessage(), e);
     }
 
     /**
@@ -223,7 +245,7 @@ public class ExceptionLogger {
      * @param e exception.
      */
     public void error(final String message, final Exception e) {
-        log(message, e, Level.error);
+        log(makeMessage(message, e), e, Level.error);
     }
 
     /**
@@ -234,12 +256,15 @@ public class ExceptionLogger {
      * @param level level.
      */
     protected void log(final String message, final Exception e, final Level level) {
-        if (level == Level.warn) {
-            monitoringLogger.warn(message);
-            applicationLogger.warn(message, e);
-        } else if (level == Level.error) {
+        if (level == Level.error) {
             monitoringLogger.error(message);
             applicationLogger.error(message, e);
+        } else if (level == Level.warn) {
+            monitoringLogger.warn(message);
+            applicationLogger.warn(message, e);
+        } else if (level == Level.info) {
+            monitoringLogger.info(message);
+            applicationLogger.info(message, e);
         }
     }
 
@@ -250,12 +275,19 @@ public class ExceptionLogger {
      * @return message.
      */
     protected String makeMessage(final Exception e) {
+        return makeMessage(e.getMessage(), e);
+    }
+
+    /**
+     * Make message.
+     * 
+     * @param message message.
+     * @param e exception.
+     * @return message.
+     */
+    protected String makeMessage(final String message, final Exception e) {
         final String code = decideCode(e);
-        if (code == null || code.isEmpty()) {
-            return e.getMessage();
-        } else {
-            return formatMessage(code, e.getMessage());
-        }
+        return formatMessage(code, message);
     }
 
     /**
@@ -367,11 +399,16 @@ public class ExceptionLogger {
      * Format message.
      * 
      * @param code code.
-     * @param exceptionMessage exception message.
+     * @param message message.
      * @return formatted message.
      */
-    protected String formatMessage(final String code, final String exceptionMessage) {
-        return new StringBuffer().append("[").append(code).append("] ").append(exceptionMessage).toString();
+    protected String formatMessage(final String code, final String message) {
+        final StringBuffer sb = new StringBuffer();
+        if (code != null && !code.isEmpty()) {
+            sb.append("[").append(code).append("] ");
+        }
+        sb.append(message);
+        return sb.toString();
     }
 
     /**
@@ -382,6 +419,10 @@ public class ExceptionLogger {
      * @author Kazuki Shimizu
      */
     public enum Level {
+        /**
+         * level of info.
+         */
+        info,
         /**
          * level of warn.
          */
@@ -397,11 +438,14 @@ public class ExceptionLogger {
          * @return if enable, return true.
          */
         boolean isEnabled() {
+            if (this == Level.error) {
+                return applicationLogger.isErrorEnabled() || monitoringLogger.isErrorEnabled();
+            }
             if (this == Level.warn) {
                 return applicationLogger.isWarnEnabled() || monitoringLogger.isWarnEnabled();
             }
-            if (this == Level.error) {
-                return applicationLogger.isErrorEnabled() || monitoringLogger.isErrorEnabled();
+            if (this == Level.info) {
+                return applicationLogger.isInfoEnabled() || monitoringLogger.isInfoEnabled();
             }
             throw new IllegalStateException("unsupported level. level is [" + this + "]");
         }
