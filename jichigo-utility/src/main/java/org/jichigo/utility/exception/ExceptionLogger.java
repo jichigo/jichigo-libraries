@@ -265,6 +265,12 @@ public class ExceptionLogger {
         } else if (level == Level.info) {
             monitoringLogger.info(message);
             applicationLogger.info(message, e);
+        } else if (level == Level.debug) {
+            monitoringLogger.debug(message);
+            applicationLogger.debug(message, e);
+        } else if (level == Level.trace) {
+            monitoringLogger.trace(message);
+            applicationLogger.trace(message, e);
         }
     }
 
@@ -420,6 +426,18 @@ public class ExceptionLogger {
      */
     public enum Level {
         /**
+         * level of off.
+         */
+        off,
+        /**
+         * level of trace.
+         */
+        trace,
+        /**
+         * level of debug.
+         */
+        debug,
+        /**
          * level of info.
          */
         info,
@@ -446,6 +464,15 @@ public class ExceptionLogger {
             }
             if (this == Level.info) {
                 return applicationLogger.isInfoEnabled() || monitoringLogger.isInfoEnabled();
+            }
+            if (this == Level.debug) {
+                return applicationLogger.isDebugEnabled() || monitoringLogger.isDebugEnabled();
+            }
+            if (this == Level.trace) {
+                return applicationLogger.isTraceEnabled() || monitoringLogger.isTraceEnabled();
+            }
+            if (this == Level.off) {
+                return false;
             }
             throw new IllegalStateException("unsupported level. level is [" + this + "]");
         }
