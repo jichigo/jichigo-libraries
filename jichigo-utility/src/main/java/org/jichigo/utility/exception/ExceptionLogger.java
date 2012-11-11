@@ -100,7 +100,7 @@ public class ExceptionLogger {
      * Monitoring logger.
      * <p>
      * output only message.(not stack trace)<br>
-     * logger name is 'org.jichigo.utility.exception.ExceptionLogger.Monitor'.
+     * logger name is 'org.jichigo.utility.exception.ExceptionLogger.Monitoring'.
      * </p>
      */
     private static final Logger monitoringLogger = LoggerFactory.getLogger(applicationLogger.getName() + ".Monitoring");
