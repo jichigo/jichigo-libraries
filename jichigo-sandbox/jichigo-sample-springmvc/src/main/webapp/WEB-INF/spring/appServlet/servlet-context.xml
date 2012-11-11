@@ -27,20 +27,17 @@
 
 	<context:component-scan base-package="org.jichigo.sample" />
 
-	<beans:bean id="exceptionHandlerLoggingInterceptor"
-		class="org.jichigo.sample.ExceptionHandlerLoggingInterceptor">
+	<beans:bean id="exceptionLoggingInterceptor"
+		class="org.jichigo.sample.ExceptionLoggingInterceptor">
 		<beans:property name="exceptionLogger" ref="exceptionLogger" />
 	</beans:bean>
-
 
 	<aop:aspectj-autoproxy />
 
 	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
-			<beans:bean class="org.jichigo.sample.HandlerExceptionLoggingInterceptor">
-				<beans:property name="exceptionLogger" ref="exceptionLogger" />
-			</beans:bean>
+			<beans:ref bean="exceptionLoggingInterceptor" />
 		</interceptor>
 	</interceptors>
 

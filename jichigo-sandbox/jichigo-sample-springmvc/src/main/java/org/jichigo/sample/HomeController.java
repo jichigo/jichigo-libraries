@@ -35,14 +35,14 @@ public class HomeController {
         model.addAttribute("serverTime", formattedDate);
 
         if (true) {
-//            throw new NullPointerException("hoge");
+            // throw new NullPointerException("hoge");
             throw new IllegalArgumentException("hoge");
         }
         return "home";
     }
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
-    public String handle(RuntimeException e) {
+    public String handleRuntimeException(RuntimeException e) {
         if (true) {
             throw new NullPointerException("fuga");
         }
