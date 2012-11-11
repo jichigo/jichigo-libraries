@@ -183,6 +183,50 @@ public class ExceptionLogger {
     }
 
     /**
+     * Output trace log.
+     * 
+     * @param e exception.
+     */
+    public void trace(final Exception e) {
+        if (!Level.trace.isEnabled()) {
+            return;
+        }
+        trace(e.getMessage(), e);
+    }
+
+    /**
+     * Output trace log.
+     * 
+     * @param message message.
+     * @param e exception.
+     */
+    public void trace(final String message, final Exception e) {
+        log(makeMessage(message, e), e, Level.trace);
+    }
+
+    /**
+     * Output debug log.
+     * 
+     * @param e exception.
+     */
+    public void debug(final Exception e) {
+        if (!Level.debug.isEnabled()) {
+            return;
+        }
+        debug(e.getMessage(), e);
+    }
+
+    /**
+     * Output debug log.
+     * 
+     * @param message message.
+     * @param e exception.
+     */
+    public void debug(final String message, final Exception e) {
+        log(makeMessage(message, e), e, Level.debug);
+    }
+
+    /**
      * Output info log.
      * 
      * @param e exception.
