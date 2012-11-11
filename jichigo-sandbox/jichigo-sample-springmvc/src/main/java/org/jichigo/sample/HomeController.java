@@ -43,9 +43,9 @@ public class HomeController {
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
     public String handleRuntimeException(RuntimeException e) {
-        if (true) {
-            throw new NullPointerException("fuga");
-        }
+//        if (true) {
+//            throw new NullPointerException("fuga");
+//        }
         return "home";
     }
 
