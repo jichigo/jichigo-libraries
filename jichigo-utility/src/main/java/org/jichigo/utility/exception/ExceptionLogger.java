@@ -22,6 +22,7 @@
 package org.jichigo.utility.exception;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,21 @@ import org.slf4j.LoggerFactory;
  * @author Kazuki Shimizu
  */
 public class ExceptionLogger {
+
+    /**
+     * Initial capacity of cache.
+     */
+    private static final int CACHE_INITIAL_CAPACITY = 16;
+
+    /**
+     * load factor of cache.
+     */
+    private static final float CACHE_LOAD_FACTOR = 0.75f;
+
+    /**
+     * Max capacity of cache.
+     */
+    private static final int CACHE_MAX_CAPACITY = 1024;
 
     /**
      * Level enum.
@@ -87,7 +103,42 @@ public class ExceptionLogger {
      * logger name is 'org.jichigo.utility.exception.ExceptionLogger.Monitor'.
      * </p>
      */
-    private static final Logger monitoringLogger = LoggerFactory.getLogger(applicationLogger.getName() + ".Monitor");
+    private static final Logger monitoringLogger = LoggerFactory.getLogger(applicationLogger.getName() + ".Monitoring");
+
+    /**
+     * LRU Cache of code mapping.
+     * <p>
+     * key : class of exception.<br>
+     * value : apply code.
+     * </p>
+     */
+    private final Map<Class<? extends Exception>, String> codeMappingCache = Collections
+            .synchronizedMap(new LinkedHashMap<Class<? extends Exception>, String>(CACHE_INITIAL_CAPACITY,
+                    CACHE_LOAD_FACTOR, true) {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<Class<? extends Exception>, String> eldest) {
+                    return size() > CACHE_MAX_CAPACITY;
+                }
+            });
+
+    /**
+     * LRU Cache of level mapping.
+     * <p>
+     * key : code.<br>
+     * value : apply level.
+     * </p>
+     */
+    private final Map<String, Level> levelMappingCache = Collections.synchronizedMap(new LinkedHashMap<String, Level>(
+            CACHE_INITIAL_CAPACITY, CACHE_LOAD_FACTOR, true) {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Level> eldest) {
+            return size() > CACHE_MAX_CAPACITY;
+        }
+    });
 
     /**
      * Custom code mapping.
@@ -234,24 +285,6 @@ public class ExceptionLogger {
     }
 
     /**
-     * Decide level.
-     * 
-     * @param e exception.
-     * @return level.
-     */
-    protected Level decideLevel(final Exception e) {
-        final String code = decideCode(e);
-        if (code != null) {
-            for (final Map.Entry<String, Level> customLevelEntry : customLevelMap.entrySet()) {
-                if (code.contains(customLevelEntry.getKey())) {
-                    return customLevelEntry.getValue();
-                }
-            }
-        }
-        return defaultLevel;
-    }
-
-    /**
      * Output log.
      * 
      * @param message message.
@@ -284,17 +317,86 @@ public class ExceptionLogger {
     }
 
     /**
+     * Decide level.
+     * 
+     * @param e exception.
+     * @return level.
+     */
+    protected Level decideLevel(final Exception e) {
+        // decide code.
+        final String code = decideCode(e);
+        // find level in cache.
+        Level level = levelMappingCache.get(code);
+        if (level != null) {
+            return level;
+        }
+        synchronized (code.intern()) {
+            // retry find level in cache.
+            level = levelMappingCache.get(code);
+            if (level != null) {
+                return level;
+            }
+            // find level.
+            level = findLevel(code);
+            // set level in cache.
+            levelMappingCache.put(code, level);
+            return level;
+        }
+    }
+
+    /**
+     * Find level.
+     * 
+     * @param code code.
+     * @return level.
+     */
+    protected Level findLevel(final String code) {
+        for (final Map.Entry<String, Level> customLevelEntry : customLevelMap.entrySet()) {
+            if (code.contains(customLevelEntry.getKey())) {
+                return customLevelEntry.getValue();
+            }
+        }
+        return defaultLevel;
+    }
+
+    /**
      * Decide code.
      * 
      * @param e exception.
      * @return code.
      */
     protected String decideCode(final Exception e) {
-
+        // get code.
         if (e instanceof ExceptionWithCode) {
             return ((ExceptionWithCode) e).getCode();
         }
+        // find code in cache.
+        final Class<? extends Exception> exceptionClass = e.getClass();
+        String code = codeMappingCache.get(exceptionClass);
+        if (code != null) {
+            return code;
+        }
+        synchronized (exceptionClass) {
+            // retry find code in cache.
+            code = codeMappingCache.get(exceptionClass);
+            if (code != null) {
+                return code;
+            }
+            // find code.
+            code = findCode(e);
+            // set code in cache.
+            codeMappingCache.put(exceptionClass, code);
+            return code;
+        }
+    }
 
+    /**
+     * Find code.
+     * 
+     * @param e exception.
+     * @return code.
+     */
+    protected String findCode(final Exception e) {
         final List<String> classNames = new ArrayList<String>();
         Class<?> cls = e.getClass();
         while (cls != Object.class) {
@@ -308,7 +410,6 @@ public class ExceptionLogger {
                 }
             }
         }
-
         return defaultCode;
     }
 
