@@ -32,7 +32,13 @@
 		<beans:property name="exceptionLogger" ref="exceptionLogger" />
 	</beans:bean>
 
-	<aop:aspectj-autoproxy />
+	<!-- <aop:aspectj-autoproxy /> -->
+
+	<aop:config>
+		<aop:advisor
+			pointcut="@annotation(org.springframework.web.bind.annotation.ExceptionHandler)"
+			advice-ref="exceptionLoggingInterceptor" />
+	</aop:config>
 
 	<interceptors>
 		<interceptor>

@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,17 +38,22 @@ public class HomeController {
         model.addAttribute("serverTime", formattedDate);
 
         if (true) {
-            // throw new NullPointerException("hoge");
+//            throw new NullPointerException("hoge");
             throw new IllegalArgumentException("hoge");
         }
         return "home";
     }
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
-    public String handleRuntimeException(RuntimeException e) {
-//        if (true) {
-//            throw new NullPointerException("fuga");
-//        }
+    public String handleRuntimeException(HttpServletRequest req, IllegalArgumentException ie, RuntimeException e,
+            HttpServletResponse res) {
+        System.out.println(req);
+        System.out.println(res);
+        System.out.println(ie);
+        System.out.println(e);
+        // if (true) {
+        // throw new NullPointerException("fuga");
+        // }
         return "home";
     }
 
