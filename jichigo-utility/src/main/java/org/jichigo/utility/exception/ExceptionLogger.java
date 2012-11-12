@@ -42,7 +42,7 @@ public class ExceptionLogger {
     /**
      * Max capacity of LRU cache.
      */
-    private static final int LUR_CACHE_MAX_CAPACITY = 1024;
+    private static final int LRU_CACHE_MAX_CAPACITY = 1024;
 
     /**
      * Application logger.
@@ -70,7 +70,7 @@ public class ExceptionLogger {
      * </p>
      */
     private final Map<Class<? extends Exception>, String> codeMappingCache = Collections
-            .synchronizedMap(new LRUCache<Class<? extends Exception>, String>(LUR_CACHE_MAX_CAPACITY));
+            .synchronizedMap(new LRUCache<Class<? extends Exception>, String>(LRU_CACHE_MAX_CAPACITY));
 
     /**
      * LRU Cache of level mapping.
@@ -80,7 +80,7 @@ public class ExceptionLogger {
      * </p>
      */
     private final Map<String, Level> levelMappingCache = Collections.synchronizedMap(new LRUCache<String, Level>(
-            LUR_CACHE_MAX_CAPACITY));
+            LRU_CACHE_MAX_CAPACITY));
 
     /**
      * Custom code mapping.
