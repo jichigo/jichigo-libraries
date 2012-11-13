@@ -29,7 +29,7 @@ import org.jichigo.utility.exception.ExceptionLogger;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * Interceptor for exception logging class.
+ * Interceptor class for logging unhandled exception.
  * 
  * @since 1.0.0
  * @version 1.0.0

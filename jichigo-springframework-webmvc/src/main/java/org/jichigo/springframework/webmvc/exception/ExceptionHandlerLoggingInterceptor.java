@@ -25,9 +25,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.jichigo.utility.exception.ExceptionLogger;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
- * Interceptor for exception logging class.
+ * Interceptor class for logging handled excetion by {@link ExceptionHandler} annotation.
  * 
  * @since 1.0.0
  * @version 1.0.0
