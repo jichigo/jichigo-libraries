@@ -3,6 +3,7 @@ package org.jichigo.sample;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,8 @@ public class HomeController {
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
+    private AtomicLong counter = new AtomicLong(1);
+
     /**
      * Simply selects the home view to render by returning its name.
      */
@@ -37,23 +40,15 @@ public class HomeController {
 
         model.addAttribute("serverTime", formattedDate);
 
-        if (true) {
-//            throw new NullPointerException("hoge");
+        if (counter.getAndIncrement() % 2 == 0) {
             throw new IllegalArgumentException("hoge");
         }
+
         return "home";
     }
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
-    public String handleRuntimeException(HttpServletRequest req, IllegalArgumentException ie, RuntimeException e,
-            HttpServletResponse res) {
-        System.out.println(req);
-        System.out.println(res);
-        System.out.println(ie);
-        System.out.println(e);
-        // if (true) {
-        // throw new NullPointerException("fuga");
-        // }
+    public String handleRuntimeException(RuntimeException e, HttpServletRequest req, HttpServletResponse res) {
         return "home";
     }
 
