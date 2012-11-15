@@ -21,11 +21,15 @@
  */
 package org.jichigo.springframework.webmvc.exception;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.jichigo.utility.exception.ExceptionLogger;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * Interceptor class for logging handled excetion by {@link ExceptionHandler} annotation.
@@ -35,12 +39,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author Kazuki Shimizu
  */
 @Aspect
-public class ExceptionHandlerLoggingInterceptor {
+public class HandlerExceptionResolverLoggingInterceptor {
 
     /**
      * Exception logger.
      */
     private ExceptionLogger exceptionLogger = new ExceptionLogger();
+
+    private Set<Class<? extends HandlerExceptionResolver>> resolversForLoggingWarnLevel = new HashSet<Class<? extends HandlerExceptionResolver>>();
 
     /**
      * Inject any exception logger.
@@ -51,6 +57,11 @@ public class ExceptionHandlerLoggingInterceptor {
         this.exceptionLogger = exceptionLogger;
     }
 
+    public void setResolversForLoggingWarnLevel(
+            HashSet<Class<? extends HandlerExceptionResolver>> resolversForLoggingWarnLevel) {
+        this.resolversForLoggingWarnLevel = resolversForLoggingWarnLevel;
+    }
+
     /**
      * Log exception handling.
      * 
@@ -58,20 +69,15 @@ public class ExceptionHandlerLoggingInterceptor {
      * @return return object of exception handling.
      * @throws Throwable if occur error.
      */
-    @Around("@annotation(org.springframework.web.bind.annotation.ExceptionHandler)")
+    @Around("execution(* org.springframework.web.servlet.HandlerExceptionResolver.resolveException(..))")
     public Object logException(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Object returnObj = null;
-        try {
-            for (final Object arg : proceedingJoinPoint.getArgs()) {
-                if (arg instanceof Exception) {
-                    exceptionLogger.warn((Exception) arg);
-                    break;
-                }
+        Object returnObj = proceedingJoinPoint.proceed();
+        if (returnObj != null) {
+            if (resolversForLoggingWarnLevel.contains(proceedingJoinPoint.getTarget().getClass())) {
+                exceptionLogger.warn((Exception) proceedingJoinPoint.getArgs()[3]);
+            } else {
+                exceptionLogger.log((Exception) proceedingJoinPoint.getArgs()[3]);
             }
-            returnObj = proceedingJoinPoint.proceed();
-        } catch (final Exception e) {
-            exceptionLogger.error(e);
-            throw e;
         }
         return returnObj;
     }
