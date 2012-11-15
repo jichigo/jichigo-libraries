@@ -25,16 +25,17 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<!-- Register component. -->
 	<context:component-scan base-package="org.jichigo.sample" />
 
 	<!-- AOP -->
 	<aop:aspectj-autoproxy />
 
-	<!-- Interceptor -->
+	<!-- Register interceptor. -->
 	<beans:bean id="handlerExceptionResolverLoggingInterceptor"
 		class="org.jichigo.springframework.webmvc.exception.HandlerExceptionResolverLoggingInterceptor">
 		<beans:property name="exceptionLogger" ref="exceptionLogger" />
-		<beans:property name="resolversForLoggingWarnLevel">
+		<beans:property name="resolversForWarn">
 			<beans:set>
 				<beans:value>
 					org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver
