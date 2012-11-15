@@ -46,7 +46,7 @@ public class HandlerExceptionResolverLoggingInterceptor {
      */
     private ExceptionLogger exceptionLogger = new ExceptionLogger();
 
-    private Set<Class<? extends HandlerExceptionResolver>> resolversForLoggingWarnLevel = new HashSet<Class<? extends HandlerExceptionResolver>>();
+    private Set<Class<? extends HandlerExceptionResolver>> resolversForWarn = new HashSet<Class<? extends HandlerExceptionResolver>>();
 
     /**
      * Inject any exception logger.
@@ -57,9 +57,8 @@ public class HandlerExceptionResolverLoggingInterceptor {
         this.exceptionLogger = exceptionLogger;
     }
 
-    public void setResolversForLoggingWarnLevel(
-            HashSet<Class<? extends HandlerExceptionResolver>> resolversForLoggingWarnLevel) {
-        this.resolversForLoggingWarnLevel = resolversForLoggingWarnLevel;
+    public void setResolversForWarn(HashSet<Class<? extends HandlerExceptionResolver>> resolversForWarn) {
+        this.resolversForWarn = resolversForWarn;
     }
 
     /**
@@ -73,7 +72,7 @@ public class HandlerExceptionResolverLoggingInterceptor {
     public Object logException(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object returnObj = proceedingJoinPoint.proceed();
         if (returnObj != null) {
-            if (resolversForLoggingWarnLevel.contains(proceedingJoinPoint.getTarget().getClass())) {
+            if (resolversForWarn.contains(proceedingJoinPoint.getTarget().getClass())) {
                 exceptionLogger.warn((Exception) proceedingJoinPoint.getArgs()[3]);
             } else {
                 exceptionLogger.log((Exception) proceedingJoinPoint.getArgs()[3]);

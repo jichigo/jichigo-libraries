@@ -22,6 +22,12 @@
 			<version>${org.jichigo-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jichigo</groupId>
+			<artifactId>jichigo-web</artifactId>
+			<version>${org.jichigo-version}</version>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
