@@ -25,6 +25,7 @@ public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private AtomicLong counter = new AtomicLong(1);
+    private AtomicLong counter2 = new AtomicLong(1);
 
     /**
      * Simply selects the home view to render by returning its name.
@@ -41,6 +42,7 @@ public class HomeController {
         model.addAttribute("serverTime", formattedDate);
 
         if (counter.getAndIncrement() % 2 == 0) {
+            // throw new OutOfMemoryError("test");
             throw new IllegalArgumentException("hoge");
         }
 
@@ -49,6 +51,9 @@ public class HomeController {
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
     public String handleRuntimeException(RuntimeException e, HttpServletRequest req, HttpServletResponse res) {
+        if (counter2.getAndIncrement() % 2 == 0) {
+            throw new OutOfMemoryError("hoge");
+        }
         return "home";
     }
 

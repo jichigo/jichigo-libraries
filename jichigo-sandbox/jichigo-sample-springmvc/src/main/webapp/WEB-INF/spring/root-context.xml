@@ -10,4 +10,9 @@
 		<property name="defaultLevel" value="error" />
 	</bean>
 
+	<bean id="unhandledExceptionLoggingFilter"
+		class="org.jichigo.springframework.webmvc.exception.UnhandledExceptionLoggingFilter">
+		<property name="exceptionLogger" ref="exceptionLogger" />
+	</bean>
+
 </beans>
