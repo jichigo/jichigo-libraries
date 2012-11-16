@@ -21,52 +21,62 @@
  */
 package org.jichigo.web.filter;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterConfig;
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import org.jichigo.utility.exception.ExceptionLogger;
 
 /**
- * Adapter class of Filter.
+ * Filter class for logging unhandled excetion.
  * 
  * @since 1.0.0
  * @version 1.0.0
  * @author Created By Kazuki Shimizu
  */
-public abstract class FilterAdapter implements Filter {
+public class ExceptionLoggingFilter extends FilterAdapter {
 
     /**
-     * Filter config.
+     * Exception logger.
      */
-    protected FilterConfig config;
+    private ExceptionLogger exceptionLogger = new ExceptionLogger();
 
     /**
-     * Initialize filter.
+     * Inject any exception logger.
      * 
-     * @param filterConfig filter config.
-     * @throws ServletException if
+     * @param exceptionLogger any exception logger.
      */
-    public final void init(FilterConfig filterConfig) throws ServletException {
-        this.config = filterConfig;
-        initBean();
+    public void setExceptionLogger(final ExceptionLogger exceptionLogger) {
+        this.exceptionLogger = exceptionLogger;
     }
 
     /**
-     * destroy filter.
+     * Log exception.
+     * 
+     * @param request servlt request.
+     * @param response servlet response.
+     * @param chain filter chain.
+     * @throws IOException if occur io error in chain.
+     * @throws ServletException if occur servlet error in chain.
      */
-    public final void destroy() {
-        destroyBean();
-    }
-
-    /**
-     * Initialize bean.
-     */
-    protected void initBean() {
-    }
-
-    /**
-     * Destroy bean.
-     */
-    protected void destroyBean() {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
+        try {
+            chain.doFilter(request, response);
+        } catch (IOException e) {
+            exceptionLogger.log(e);
+            throw e;
+        } catch (ServletException e) {
+            exceptionLogger.log(e);
+            throw e;
+        } catch (RuntimeException e) {
+            exceptionLogger.log(e);
+            throw e;
+        }
     }
 
 }

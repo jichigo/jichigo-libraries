@@ -36,20 +36,31 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
  * 
  * @since 1.0.0
  * @version 1.0.0
- * @author Kazuki Shimizu
+ * @author Created By Kazuki Shimizu
  */
 @Aspect
 public class HandlerExceptionResolverLoggingInterceptor {
+
+    /**
+     * Argument index of exception.
+     */
+    private static final int ARGUMENT_INDEX_OF_EXCEPTION = 3;
 
     /**
      * Exception logger.
      */
     private ExceptionLogger exceptionLogger = new ExceptionLogger();
 
+    /**
+     * Handler exception resolvers for logging warn level.
+     */
     private Set<Class<? extends HandlerExceptionResolver>> resolversForWarn = new HashSet<Class<? extends HandlerExceptionResolver>>();
 
     /**
      * Inject any exception logger.
+     * <p>
+     * If not inject, default exception logger.
+     * </p>
      * 
      * @param exceptionLogger any exception logger.
      */
@@ -57,6 +68,11 @@ public class HandlerExceptionResolverLoggingInterceptor {
         this.exceptionLogger = exceptionLogger;
     }
 
+    /**
+     * Inject Handler exception resolvers for logging warn level.
+     * 
+     * @param resolversForWarn Handler exception resolvers for logging warn level.
+     */
     public void setResolversForWarn(HashSet<Class<? extends HandlerExceptionResolver>> resolversForWarn) {
         this.resolversForWarn = resolversForWarn;
     }
@@ -70,12 +86,13 @@ public class HandlerExceptionResolverLoggingInterceptor {
      */
     @Around("execution(* org.springframework.web.servlet.HandlerExceptionResolver.resolveException(..))")
     public Object logException(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Object returnObj = proceedingJoinPoint.proceed();
+        final Object returnObj = proceedingJoinPoint.proceed();
         if (returnObj != null) {
+            final Exception exception = (Exception) proceedingJoinPoint.getArgs()[ARGUMENT_INDEX_OF_EXCEPTION];
             if (resolversForWarn.contains(proceedingJoinPoint.getTarget().getClass())) {
-                exceptionLogger.warn((Exception) proceedingJoinPoint.getArgs()[3]);
+                exceptionLogger.warn(exception);
             } else {
-                exceptionLogger.log((Exception) proceedingJoinPoint.getArgs()[3]);
+                exceptionLogger.log(exception);
             }
         }
         return returnObj;
