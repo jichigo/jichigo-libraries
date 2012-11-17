@@ -21,8 +21,13 @@
  */
 package org.jichigo.web.base.support;
 
+import java.util.Enumeration;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Support class of Filter.
@@ -34,9 +39,14 @@ import javax.servlet.ServletException;
 public abstract class FilterSupport {
 
     /**
+     * Logger.
+     */
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
      * Filter config.
      */
-    protected FilterConfig config;
+    protected FilterConfig filterConfig;
 
     /**
      * Initialize filter.
@@ -45,8 +55,24 @@ public abstract class FilterSupport {
      * @throws ServletException if
      */
     public final void init(final FilterConfig filterConfig) throws ServletException {
-        this.config = filterConfig;
+        this.filterConfig = filterConfig;
+        if (logger.isInfoEnabled()) {
+            @SuppressWarnings("unchecked")
+            final Enumeration<String> parameterNames = filterConfig.getInitParameterNames();
+            while (parameterNames.hasMoreElements()) {
+                final String parameterName = parameterNames.nextElement();
+                final String parameterValue = filterConfig.getInitParameter(parameterName);
+                logger.info(
+                        "filter [{}] initialize parameter. servlet context [{}]. name [{}]. value [{}].",
+                        array(filterConfig.getFilterName(), filterConfig.getServletContext().getContextPath(),
+                                parameterName, parameterValue));
+            }
+        }
         initBean();
+        if (logger.isInfoEnabled()) {
+            logger.info("filter [{}] initialized. servlet context [{}].",
+                    array(filterConfig.getFilterName(), filterConfig.getServletContext().getContextPath()));
+        }
     }
 
     /**
@@ -54,6 +80,10 @@ public abstract class FilterSupport {
      */
     public final void destroy() {
         destroyBean();
+        if (logger.isInfoEnabled()) {
+            logger.info("filter [{}] destroyed. servlet context [{}].", filterConfig.getServletContext()
+                    .getContextPath(), filterConfig.getFilterName());
+        }
     }
 
     /**
@@ -66,6 +96,16 @@ public abstract class FilterSupport {
      * Destroy bean.
      */
     protected void destroyBean() {
+    }
+
+    /**
+     * Convert to array from variable length variable.
+     * 
+     * @param objects variable length variable.
+     * @return array.
+     */
+    protected Object[] array(final Object... objects) {
+        return objects;
     }
 
 }

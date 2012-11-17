@@ -41,6 +41,14 @@ public class HttpSessionEventListenerSupport {
      */
     private static final Logger logger = LoggerFactory.getLogger(HttpSessionEventListenerSupport.class);
 
+    /**
+     * Do nothing of valueBound.
+     * <p>
+     * If does not override implements, logging warn level.
+     * </p>
+     * 
+     * @param event http session binding event.
+     */
     public void valueBound(final HttpSessionBindingEvent event) {
         if (logger.isWarnEnabled()) {
             logger.warn("call valueBound of {}. not exists implementation.", getClass().getName());

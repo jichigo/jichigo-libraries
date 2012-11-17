@@ -148,8 +148,10 @@ public class HttpSessionEventLoggingListener extends HttpSessionEventListenerSup
     public void sessionCreated(final HttpSessionEvent event) {
         if (logger.isInfoEnabled()) {
             final HttpSession session = event.getSession();
-            logger.info("session [{}] created. creationTime [{}].",
-                    array(session.getId(), new Timestamp(session.getCreationTime())));
+            logger.info(
+                    "session [{}] created. creationTime [{}]. maxInactiveInterval [{}].",
+                    array(session.getId(), new Timestamp(session.getCreationTime()),
+                            Integer.valueOf(session.getMaxInactiveInterval())));
         }
     }
 
@@ -162,8 +164,10 @@ public class HttpSessionEventLoggingListener extends HttpSessionEventListenerSup
     public void sessionDestroyed(final HttpSessionEvent event) {
         if (logger.isInfoEnabled()) {
             final HttpSession session = event.getSession();
-            logger.info("session [{}] destroyed. lastAccessedTime [{}].",
-                    array(session.getId(), new Timestamp(session.getLastAccessedTime())));
+            logger.info(
+                    "session [{}] destroyed. lastAccessedTime [{}]. maxInactiveInterval [{}].",
+                    array(session.getId(), new Timestamp(session.getLastAccessedTime()),
+                            Integer.valueOf(session.getMaxInactiveInterval())));
         }
     }
 
