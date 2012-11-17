@@ -33,6 +33,7 @@
 	<dependencyManagement>
 		<dependencies>
 
+			<!-- jichigo -->
 			<dependency>
 				<groupId>org.jichigo</groupId>
 				<artifactId>jichigo-utility</artifactId>
@@ -91,11 +92,23 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>${org.slf4j-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${org.slf4j-version}</version>
+				<scope>runtime</scope>
+			</dependency>
 
 			<!-- logback -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
+				<version>${ch.qos.logback-version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-access</artifactId>
 				<version>${ch.qos.logback-version}</version>
 				<scope>runtime</scope>
 			</dependency>

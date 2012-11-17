@@ -13,9 +13,17 @@
 
 	<dependencies>
 
+		<!-- jichigo -->
 		<dependency>
 			<groupId>org.jichigo</groupId>
 			<artifactId>jichigo-web</artifactId>
+		</dependency>
+
+		<!-- slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Spring -->
