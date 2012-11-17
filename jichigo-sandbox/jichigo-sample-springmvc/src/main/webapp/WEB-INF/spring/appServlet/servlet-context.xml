@@ -44,6 +44,7 @@
 		</beans:property>
 	</beans:bean>
 
+<!--  
 
 	<beans:bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
@@ -56,5 +57,7 @@
 		<beans:property name="order" value="5" />
 		<beans:property name="defaultErrorView" value="/common/resolver2" />
 	</beans:bean>
+
+-->
 
 </beans:beans>

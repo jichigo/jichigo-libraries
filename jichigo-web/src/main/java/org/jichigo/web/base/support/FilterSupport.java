@@ -57,7 +57,6 @@ public abstract class FilterSupport {
     public final void init(final FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         if (logger.isInfoEnabled()) {
-            @SuppressWarnings("unchecked")
             final Enumeration<String> parameterNames = filterConfig.getInitParameterNames();
             while (parameterNames.hasMoreElements()) {
                 final String parameterName = parameterNames.nextElement();

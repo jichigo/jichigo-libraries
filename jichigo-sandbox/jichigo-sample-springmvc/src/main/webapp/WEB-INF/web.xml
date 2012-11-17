@@ -23,6 +23,15 @@
 
 	<!-- Filter application requests -->
 	<filter>
+		<filter-name>TeeFilter</filter-name>
+		<filter-class>ch.qos.logback.access.servlet.TeeFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>TeeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
 		<filter-name>exceptionLoggingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>

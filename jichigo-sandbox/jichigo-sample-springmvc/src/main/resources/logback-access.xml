@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+
+	<!-- Appenders -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%t{yyyy/MM/dd HH:mm:ss.SSS}] [%a] [%r] [%s] [%b]%n===HTTP REQUEST===%n%fullRequest%n===HTTP RESPONSE===%n%fullResponse</pattern>
+		</encoder>
+	</appender>
+
+	<appender-ref ref="console" />
+
+</configuration>

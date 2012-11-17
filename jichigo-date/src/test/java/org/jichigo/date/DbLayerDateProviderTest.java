@@ -41,13 +41,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.impl.Log4jLoggerAdapter;
 
 /**
  * Test Case of DbLayerDateFactory.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ LoggerFactory.class, Log4jLoggerAdapter.class })
+@PrepareForTest({ LoggerFactory.class, ch.qos.logback.classic.Logger.class })
 public class DbLayerDateProviderTest {
 
     /**
