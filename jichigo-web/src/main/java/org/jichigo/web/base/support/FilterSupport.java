@@ -19,20 +19,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.jichigo.web.filter;
+package org.jichigo.web.base.support;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 
 /**
- * Adapter class of Filter.
+ * Support class of Filter.
  * 
  * @since 1.0.0
  * @version 1.0.0
- * @author Created By Kazuki Shimizu
+ * @author Created by Kazuki Shimizu
  */
-public abstract class FilterAdapter implements Filter {
+public abstract class FilterSupport {
 
     /**
      * Filter config.
@@ -45,7 +44,7 @@ public abstract class FilterAdapter implements Filter {
      * @param filterConfig filter config.
      * @throws ServletException if
      */
-    public final void init(FilterConfig filterConfig) throws ServletException {
+    public final void init(final FilterConfig filterConfig) throws ServletException {
         this.config = filterConfig;
         initBean();
     }

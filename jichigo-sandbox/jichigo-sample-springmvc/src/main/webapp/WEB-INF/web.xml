@@ -14,6 +14,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>org.jichigo.web.logging.ServletContextEventLoggingListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.jichigo.web.logging.HttpSessionEventLoggingListener</listener-class>
+	</listener>
 
 	<!-- Filter application requests -->
 	<filter>

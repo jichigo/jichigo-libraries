@@ -10,7 +10,7 @@
 		<property name="defaultLevel" value="error" />
 	</bean>
 
-	<bean id="exceptionLoggingFilter" class="org.jichigo.web.filter.ExceptionLoggingFilter">
+	<bean id="exceptionLoggingFilter" class="org.jichigo.web.logging.ExceptionLoggingFilter">
 		<property name="exceptionLogger" ref="exceptionLogger" />
 	</bean>
 

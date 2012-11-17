@@ -19,16 +19,18 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.jichigo.web.filter;
+package org.jichigo.web.logging;
 
 import java.io.IOException;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.jichigo.utility.exception.ExceptionLogger;
+import org.jichigo.web.base.support.FilterSupport;
 
 /**
  * Filter class for logging unhandled excetion.
@@ -37,7 +39,7 @@ import org.jichigo.utility.exception.ExceptionLogger;
  * @version 1.0.0
  * @author Created By Kazuki Shimizu
  */
-public class ExceptionLoggingFilter extends FilterAdapter {
+public class ExceptionLoggingFilter extends FilterSupport implements Filter {
 
     /**
      * Exception logger.
@@ -63,8 +65,8 @@ public class ExceptionLoggingFilter extends FilterAdapter {
      * @throws ServletException if occur servlet error in chain.
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException, ServletException {
         try {
             chain.doFilter(request, response);
         } catch (IOException e) {

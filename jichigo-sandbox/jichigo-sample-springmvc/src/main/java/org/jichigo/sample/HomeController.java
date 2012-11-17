@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,10 @@ public class HomeController {
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) {
+    public String home(Locale locale, Model model, HttpSession session) {
         logger.info("Welcome home! the client locale is " + locale.toString());
 
+        session.setAttribute("hoge", "test");
         Date date = new Date();
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
@@ -50,7 +52,9 @@ public class HomeController {
     }
 
     @ExceptionHandler({ IllegalArgumentException.class, NullPointerException.class })
-    public String handleRuntimeException(RuntimeException e, HttpServletRequest req, HttpServletResponse res) {
+    public String handleRuntimeException(RuntimeException e, HttpServletRequest req, HttpServletResponse res,
+            HttpSession session) {
+        session.invalidate();
         if (counter2.getAndIncrement() % 2 == 0) {
             throw new OutOfMemoryError("hoge");
         }
