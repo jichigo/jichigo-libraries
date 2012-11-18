@@ -9,6 +9,9 @@
 
 	<properties>
 
+		<!-- repositories base URL. -->
+		<repositories-base-url>http://kazuki-pc:10000/nexus/content/repositories</repositories-base-url>
+
 		<!-- jichigo version. -->
 		<org.jichigo-version>0.0.1-SNAPSHOT</org.jichigo-version>
 
@@ -30,6 +33,23 @@
 
 	</properties>
 
+	<distributionManagement>
+
+		<!-- リリース用リポジトリ -->
+		<repository>
+			<id>nexus</id>
+			<name>Releases</name>
+			<url>${repositories-base-url}/releases/</url>
+		</repository>
+
+		<!-- スナップショット用リポジトリ -->
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Snapshots</name>
+			<url>${repositories-base-url}/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<dependencyManagement>
 		<dependencies>
 
@@ -39,19 +59,16 @@
 				<artifactId>jichigo-utility</artifactId>
 				<version>${org.jichigo-version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.jichigo</groupId>
 				<artifactId>jichigo-date</artifactId>
 				<version>${org.jichigo-version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.jichigo</groupId>
 				<artifactId>jichigo-web</artifactId>
 				<version>${org.jichigo-version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.jichigo</groupId>
 				<artifactId>jichigo-springframework-webmvc</artifactId>
@@ -175,14 +192,12 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
