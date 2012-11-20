@@ -49,7 +49,7 @@
 		class="org.jichigo.springframework.webmvc.exception.JichigoSimpleMappingExceptionResolver">
 		<beans:property name="order" value="1" />
 		<beans:property name="targetHandlerRegex" value=".*AjaxController" />
-        <beans:property name="targetAcceptMimeTypes" value="application/json" />
+		<beans:property name="targetAcceptMimeTypes" value="application/json" />
 		<beans:property name="defaultErrorView" value="json/systemError" />
 		<beans:property name="defaultStatusCode" value="500" />
 		<beans:property name="viewResolver">

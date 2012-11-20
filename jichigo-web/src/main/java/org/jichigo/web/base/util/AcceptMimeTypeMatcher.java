@@ -1,4 +1,4 @@
-package org.jichigo.springframework.webmvc.exception;
+package org.jichigo.web.base.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

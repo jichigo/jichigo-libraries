@@ -1,4 +1,4 @@
-package org.jichigo.springframework.webmvc.exception;
+package org.jichigo.utility.exception;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

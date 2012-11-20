@@ -3,7 +3,7 @@ package org.jichigo.sample;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jichigo.springframework.webmvc.exception.ExceptionModelResolver;
+import org.jichigo.springframework.webmvc.exception.support.ExceptionModelResolver;
 
 public class JsonExceptionModelResolver implements ExceptionModelResolver {
 

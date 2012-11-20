@@ -1,4 +1,4 @@
-package org.jichigo.springframework.webmvc.exception;
+package org.jichigo.springframework.webmvc;
 
 import javax.servlet.http.HttpServletRequest;
 
