@@ -21,6 +21,7 @@
 		in the /WEB-INF/views directory -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="order" value="1" />
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
@@ -44,20 +45,30 @@
 		</beans:property>
 	</beans:bean>
 
-<!--  
-
-	<beans:bean
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<beans:property name="order" value="4" />
-		<beans:property name="defaultErrorView" value="/common/resolver1" />
+	<beans:bean id="exceptionResolverForAjax"
+		class="org.jichigo.springframework.webmvc.exception.JichigoSimpleMappingExceptionResolver">
+		<beans:property name="order" value="1" />
+		<beans:property name="targetHandlerRegex" value=".*AjaxController" />
+        <beans:property name="targetAcceptMimeTypes" value="application/json" />
+		<beans:property name="defaultErrorView" value="json/systemError" />
+		<beans:property name="defaultStatusCode" value="500" />
+		<beans:property name="viewResolver">
+			<beans:bean class="org.springframework.web.servlet.view.XmlViewResolver">
+				<beans:property name="location"
+					value="/WEB-INF/spring/appServlet/exception-views.xml" />
+			</beans:bean>
+		</beans:property>
+		<beans:property name="exceptionModelResolver">
+			<beans:bean class="org.jichigo.sample.JsonExceptionModelResolver" />
+		</beans:property>
 	</beans:bean>
 
-	<beans:bean
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<beans:property name="order" value="5" />
-		<beans:property name="defaultErrorView" value="/common/resolver2" />
+	<beans:bean id="exceptionResolverForHtml"
+		class="org.jichigo.springframework.webmvc.exception.JichigoSimpleMappingExceptionResolver">
+		<beans:property name="order" value="1" />
+		<beans:property name="targetAcceptMimeTypes" value="text/html" />
+		<beans:property name="defaultErrorView" value="html/systemError" />
+		<beans:property name="defaultStatusCode" value="500" />
 	</beans:bean>
-
--->
 
 </beans:beans>
