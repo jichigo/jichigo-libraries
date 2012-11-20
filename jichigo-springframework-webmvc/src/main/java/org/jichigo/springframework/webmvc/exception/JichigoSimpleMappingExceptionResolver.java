@@ -66,7 +66,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
 
     private final AcceptMimeTypeMatcher acceptMimeTypeMatcher;
 
-    private Pattern appliedPattern;
+    private Pattern targetHandlerPatter;
 
     private ViewResolver viewResolver;
 
@@ -97,7 +97,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
     }
 
     public void setTargetHandlerRegex(String targetHandlerRegex) {
-        appliedPattern = Pattern.compile(targetHandlerRegex);
+        targetHandlerPatter = Pattern.compile(targetHandlerRegex);
     }
 
     public void setViewResolver(ViewResolver viewResolver) {
@@ -124,7 +124,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
     @Override
     protected boolean shouldApplyTo(HttpServletRequest request, Object handler) {
 
-        if (appliedPattern == null) {
+        if (targetHandlerPatter == null) {
             return super.shouldApplyTo(request, handler);
         }
 
@@ -137,7 +137,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
 
         boolean match = false;
         if (handlerClass != null) {
-            match = appliedPattern.matcher(handlerClass.getName()).matches();
+            match = targetHandlerPatter.matcher(handlerClass.getName()).matches();
         }
         if (!match) {
             String accept = request.getHeader("Accept");

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -31,9 +32,10 @@ public class HomeAjaxController {
      */
     @RequestMapping(value = "/ajax/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public GenericJsonBean home(Locale locale, Model model, HttpSession session, @PathVariable Integer id) {
+    public GenericJsonBean home(Locale locale, Model model, HttpSession session, HttpServletRequest request,
+            @PathVariable Integer id) {
         logger.info("Welcome home! the client locale is " + locale.toString());
-
+System.out.println(request.getHeader("Accept"));
         session.setAttribute("hoge", "test");
         Date date = new Date();
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -43,13 +45,13 @@ public class HomeAjaxController {
         model.addAttribute("serverTime", formattedDate);
 
         if (counter.getAndIncrement() % 2 == 0) {
-            // throw new OutOfMemoryError("test");
-            throw new IllegalArgumentException("hoge");
+             throw new OutOfMemoryError("test");
+//            throw new IllegalArgumentException("hoge");
         }
 
         GenericJsonBean bean = new GenericJsonBean();
         bean.setResultCode("0");
-        bean.setMessage(formattedDate);
+        bean.setMessage(formattedDate + "/" + id);
 
         return bean;
     }
