@@ -63,7 +63,6 @@
 		</beans:property>
 	</beans:bean>
 
-
 	<beans:bean id="exceptionResolverForHtml"
 		class="org.jichigo.springframework.webmvc.exception.JichigoSimpleMappingExceptionResolver">
 		<beans:property name="order" value="1" />

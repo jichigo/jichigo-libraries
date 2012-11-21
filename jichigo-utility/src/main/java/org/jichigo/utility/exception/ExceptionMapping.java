@@ -12,7 +12,7 @@ public class ExceptionMapping<Value> {
         this.mapping = mapping;
     }
 
-    public Value getContainsValue(Class<? extends Exception> exceptionClass) {
+    public Value getMappedValue(Class<? extends Exception> exceptionClass) {
         if (mapping == null || mapping.isEmpty()) {
             return null;
         }

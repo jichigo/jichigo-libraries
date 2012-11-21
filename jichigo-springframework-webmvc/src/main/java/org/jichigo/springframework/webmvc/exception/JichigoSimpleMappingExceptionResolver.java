@@ -62,7 +62,7 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 @Aspect
 public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptionResolver {
 
-    private final ExceptionMapping<Integer> responseCodeEceptionMapping;
+    private final ExceptionMapping<Integer> statusCodeExceptionMapping;
 
     private final AcceptMimeTypeMatcher acceptMimeTypeMatcher;
 
@@ -75,7 +75,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
     private String defaultErrorView;
 
     public JichigoSimpleMappingExceptionResolver() {
-        this.responseCodeEceptionMapping = new ExceptionMapping<Integer>();
+        this.statusCodeExceptionMapping = new ExceptionMapping<Integer>();
         LinkedHashMap<String, Integer> responseCodeMapping = new LinkedHashMap<String, Integer>();
         responseCodeMapping.put(NoSuchRequestHandlingMethodException.class.getName(), HttpServletResponse.SC_NOT_FOUND);
         responseCodeMapping.put(HttpRequestMethodNotSupportedException.class.getName(),
@@ -91,7 +91,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
         responseCodeMapping.put(HttpMessageNotReadableException.class.getName(), HttpServletResponse.SC_BAD_REQUEST);
         responseCodeMapping.put(MethodArgumentNotValidException.class.getName(), HttpServletResponse.SC_BAD_REQUEST);
         responseCodeMapping.put(MissingServletRequestPartException.class.getName(), HttpServletResponse.SC_BAD_REQUEST);
-        responseCodeEceptionMapping.setMapping(responseCodeMapping);
+        statusCodeExceptionMapping.setMapping(responseCodeMapping);
 
         this.acceptMimeTypeMatcher = new AcceptMimeTypeMatcher();
     }
@@ -153,19 +153,21 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception ex) {
 
+        // resolve model and view.
         ModelAndView modelAndView = super.doResolveException(request, response, handler, ex);
-
         if (modelAndView == null) {
             return null;
         }
 
+        // customize status code.
         if (modelAndView.getViewName() == defaultErrorView) {
-            Integer statusCode = responseCodeEceptionMapping.getContainsValue(ex.getClass());
-            if (statusCode != null) {
-                applyStatusCodeIfPossible(request, response, statusCode);
+            Integer mappedStatusCode = statusCodeExceptionMapping.getMappedValue(ex.getClass());
+            if (mappedStatusCode != null) {
+                applyStatusCodeIfPossible(request, response, mappedStatusCode);
             }
         }
 
+        // resolve view by view name.
         if (viewResolver != null) {
             LocaleResolver localeResolver = (LocaleResolver) request
                     .getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE);
@@ -180,6 +182,7 @@ public class JichigoSimpleMappingExceptionResolver extends SimpleMappingExceptio
             }
         }
 
+        // resolve model for error response.
         if (exceptionModelResolver != null) {
             Object model = exceptionModelResolver.resolveModel(request, response, ex);
             modelAndView.addObject(model);
